@@ -8,8 +8,11 @@ using namespace std;
 struct TMonom
 {
 	double k;
-	int power;
-	TMonom() :power(0), k(0) {};
+	int power[3];
+	TMonom() : k(0) {
+		for (int i = 0; i < 3; i++)
+			power[i] = 0;
+	};
 };
 
 
