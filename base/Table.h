@@ -45,23 +45,66 @@ public:
 	T Search(string _key);
 };
 
-template <class T> class TableHashList
+struct Pair
 {
-	Cell<T, string>data[MaxSize];
-public:
-	void Insert(T _data, string _key);
-	void Delete(string _key);
-	T Search(string _key);
+	int key;
+	TList<TPolinom> values;
+};
+int Hash(int key)
+{
+	return key % HASH_SIZE;
+}
+template <class TList, class ValType>
+class HashTable
+{
+
+ private:
+	Pair table[MaxSize];
+	int count;
+ public:
+	HashTable()
+	{
+		count = 0;
+	}
+	void Delete(ValType first_key, int key_)
+	{
+		int index = 0;
+		int tmp = Hash(key_);
+		Node *p = table[tmp].values->pFirst;
+		while (p != nullptr)
+		{
+			if (p->key != first_key)
+			{
+				p = p->pNext;
+				index++;
+			}
+			if (p-> == first_key)
+				table[tmp].values.DeleteEl(index);
+		}
+	}
+	void Add(T elem, int key_)
+	{
+		int tmp = Hash(key_);
+		table[tmp].values.push_back(elem);
+
+	}
+	TPolinom Get(ValType first_key, int key_)
+	{
+		int tmp = Hash(key_);
+		Node *p = table[tmp].values->pFirst;
+		while (p != nullptr)
+		{
+			if (p->key != first_key)
+			{
+				p = p->pNext;
+				index++;
+			}
+			if (p-> == first_key)
+				return table[tmp].values[index];
+		}
+	}
 };
 
-template <class T> class TableHash
-{
-	Cell<T, string>data[MaxSize];
-public:
-	void Insert(T _data, string _key);
-	void Delete(string _key);
-	T Search(string _key);
-};
 
 
 
