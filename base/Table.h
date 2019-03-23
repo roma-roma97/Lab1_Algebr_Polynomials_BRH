@@ -52,20 +52,20 @@ public:
 template <class T> class TableSort
 {
 	TRecord<T, string>data[MaxSize];
-	int count;
+	int count = 0;
 public:
 
-	void Sort(TRecord *_data, int _count) 
+	void Sort(TRecord *_data, int _count)
 	{
-		TRecord <T,string> tmp;
-		int ind; 
+		TRecord <T, string> tmp;
+		int ind;
 		for (int i = 1; i < _count; i++)
 		{
-			temp = _data[i]; 
-			ind = i- 1; 
-			while (ind >= 0 && _data[ind].key > tmp.key) 
+			temp = _data[i];
+			ind = i - 1;
+			while (ind >= 0 && _data[ind].key > tmp.key)
 			{
-				_data[ind + 1] = _data[ind]; 
+				_data[ind + 1] = _data[ind];
 				_data[ind] = tmp;
 				ind--;
 			}
@@ -73,10 +73,43 @@ public:
 	}
 	void Insert(T _data, string _key)
 	{
-		
+		if (count == 0)
+			throw("Table is empty");
+		else {
+			data[count].data = _data;
+			data[count].key = _key;
+			Sort(data, count);
+			count++;
+		}
 	}
-	void Delete(string _key);
-	T Search(string _key);
+	void Delete(string _key)
+	{
+		if (count == 0)
+			throw("Table is empty");
+		else
+		{
+			for (int i = 0; i < count; i++)
+			{
+				if (data[i].key == _key)
+				{
+					data[i].key = data[count].key;
+					data[i].data = data[count].data;
+				}
+			}
+			count--;
+			Sort(data, count);
+		}
+	}
+	T Search(string _key)
+	{
+		if (count == 0)
+			throw("Table is empty");
+		else {
+			for (int i = 0; i < count; i++)
+				if (data[i].key == _key)
+					return data[i].data;
+		}
+	}
 };
 
 template <class T> class TableList
