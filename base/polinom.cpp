@@ -48,7 +48,8 @@ TPolinom TPolinom::operator+(TPolinom &_Polinom)
 		else if ((monoms[i].k + _Polinom.monoms[j].k) != 0)
 		{
 			monom.k = monoms[i].k + _Polinom.monoms[j].k;
-			monom.power = monoms[i].power;
+			for (int h = 0; h < 3; h++)
+				monom.power[h] = monoms[i].power[h];
 			tmp.monoms.Push_back(monom);
 			i++;
 			j++;
@@ -85,21 +86,73 @@ TPolinom TPolinom::operator-(TPolinom &_Polinom)
 	return tmp;
 }
 
+TPolinom TPolinom::operator*(TPolinom &_Polinom)
+{
+	TPolinom tmp;
+	tmp = _Polinom;
+	TPolinom emp;
+	TMonom t;
+	for (int i = 0; i < monoms.GetSize(); i++)
+	{
+		for (int j = 0; j < _Polinom.monoms.GetSize(); j++)
+		{
+			t.k = tmp.monoms[i].k * monoms[i].k;
+			for (int h = 0; h < 3; h++)
+				t.power[h] = tmp.monoms[i].power[h] + monoms[j].power[h];
+		}
+	}
+	emp.monoms.Push_back(t);
+	for (int i = 0; i < emp.monoms.GetSize() - 1; i++)
+	{
+		for (int j = i + 1; j < emp.monoms.GetSize(); j++)
+		{
+			for (int h = 0; h < 3; i++)
+				if (emp.monoms[i].power[h] == emp.monoms[j].power[h])
+				{
+					emp.monoms[i].k += emp.monoms[j].k;
+					emp.monoms.DeleteEl(j);
+				}
+		}
+	}
+	return emp;
+}
+
+TPolinom TPolinom::operator%(TPolinom &_Polinom)
+{
+
+}
+
+TPolinom TPolinom::operator/(TPolinom &_Polinom)
+{
+
+}
+
+TPolinom TPolinom::Integration(TPolinom &_TPolinom, char var)
+{
+
+}
+
+TPolinom TPolinom::Differentiation(TPolinom &_Polinom, char var)
+{
+
+}
+
 double TPolinom::Calculate(const double &x, const double &y, const double &z)
 {
 	double res = 0;
 	double monom = 1;
 	for (int i = 0; i < monoms.GetSize(); i++)
-	{
-		if (monoms[i].power % 10 != 0)
-			monom *= pow(z, monoms[i].power % 10);
-		if ((monoms[i].power / 10) % 10 != 0)
-			monom *= pow(y, (monoms[i].power / 10) % 10);
-		if (monoms[i].power / 100 != 0)
-			monom *= pow(x, monoms[i].power / 100);
-		res += monom * monoms[i].k;
-		monom = 1;
-	}
+		for (int h = 0; h < 3; h++)
+		{
+			if (monoms[i].power[h] != 0)
+				monom *= pow(z, monoms[i].power[h]);
+			if (monoms[i].power[h] != 0)
+				monom *= pow(y, (monoms[i].power[h]));
+			if (monoms[i].power[h] != 0)
+				monom *= pow(x, monoms[i].power[h]);
+			res += monom * monoms[i].k;
+			monom = 1;
+		}
 	return res;
 }
 
@@ -119,9 +172,9 @@ void TPolinom::SetPolinom(string &_polinom)
 				str += _polinom[i++];
 			switch (flag) {
 			case 0: monom.k = atof(str.c_str())*sign; str = ""; flag = -1; break;
-			case 1: monom.power = atoi(str.c_str()) * 100; str = ""; flag = -1; break;
-			case 2: monom.power += atoi(str.c_str()) * 10; str = ""; flag = -1; break;
-			case 3: monom.power += atoi(str.c_str());  str = ""; flag = -1; break;
+			case 1: monom.power[0] = atoi(str.c_str()) * 100; str = ""; flag = -1; break;
+			case 2: monom.power[1] = atoi(str.c_str()) * 10; str = ""; flag = -1; break;
+			case 3: monom.power[2] = atoi(str.c_str());  str = ""; flag = -1; break;
 			}
 			if (_polinom[i] == 'x')
 			{
@@ -168,7 +221,8 @@ void TPolinom::SetPolinom(string &_polinom)
 					break;
 				}
 		flag = 0;
-		monom.power = 0;
+		for (int i = 0; i < 2; i++)
+			monom.power[i] = 0;
 		monom.k = 0;
 	}
 }
@@ -187,23 +241,23 @@ void TPolinom::strPolinom()
 {
 	polinom = "";
 	polinom += to_string(monoms[0].k);
-	if (monoms[0].power / 100 != 0)
-		polinom = polinom + "x" + to_string(monoms[0].power / 100);
-	if ((monoms[0].power / 10) % 10 != 0)
-		polinom = polinom + "y" + to_string((monoms[0].power / 10) % 10);
-	if (monoms[0].power % 10 != 0)
-		polinom = polinom + "z" + to_string(monoms[0].power % 10);
+	if (monoms[0].power[0] != 0)
+		polinom = polinom + "x" + to_string(monoms[0].power[0]);
+	if (monoms[0].power[1] != 0)
+		polinom = polinom + "y" + to_string((monoms[0].power[1]);
+	if (monoms[0].power[2] != 0)
+		polinom = polinom + "z" + to_string(monoms[0].power[2]);
 	for (int i = 1; i < monoms.GetSize(); i++)
 	{
 		if (monoms[i].k > 0)
 			polinom += "+";
 		polinom += to_string(monoms[i].k);
-		if (monoms[i].power / 100 != 0)
-			polinom = polinom + "x" + to_string(monoms[i].power / 100);
-		if ((monoms[i].power / 10) % 10 != 0)
-			polinom = polinom + "y" + to_string((monoms[i].power / 10) % 10);
-		if (monoms[i].power % 10 != 0)
-			polinom = polinom + "z" + to_string(monoms[i].power % 10);
+		if (monoms[i].power[0] != 0)
+			polinom = polinom + "x" + to_string(monoms[i].power[0]);
+		if (monoms[i].power[1] != 0)
+			polinom = polinom + "y" + to_string(monoms[i].power[1]);
+		if (monoms[i].power[2] != 0)
+			polinom = polinom + "z" + to_string(monoms[i].power[2]);
 	}
 }
 
