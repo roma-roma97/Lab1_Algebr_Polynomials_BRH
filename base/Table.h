@@ -48,25 +48,20 @@ public:
 struct Pair
 {
 	int key;
-	TList<TPolinom> values;
+	TList<T> values;
 };
 int Hash(int key)
 {
 	return key % HASH_SIZE;
 }
-template <class TList, class ValType>
 class HashTable
 {
 
  private:
 	Pair table[MaxSize];
-	int count;
  public:
-	HashTable()
-	{
-		count = 0;
-	}
-	void Delete(ValType first_key, int key_)
+	 HashTable();
+	void Delete(string first_key, int key_)
 	{
 		int index = 0;
 		int tmp = Hash(key_);
@@ -78,7 +73,7 @@ class HashTable
 				p = p->pNext;
 				index++;
 			}
-			if (p-> == first_key)
+			if (p->key == first_key)
 				table[tmp].values.DeleteEl(index);
 		}
 	}
