@@ -61,7 +61,7 @@ public:
 		int ind;
 		for (int i = 1; i < _count; i++)
 		{
-			temp = _data[i];
+			tmp = _data[i];
 			ind = i - 1;
 			while (ind >= 0 && _data[ind].key > tmp.key)
 			{

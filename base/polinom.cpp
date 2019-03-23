@@ -127,14 +127,36 @@ TPolinom TPolinom::operator/(TPolinom &_Polinom)
 
 }
 
-TPolinom TPolinom::Integration(TPolinom &_TPolinom, char var)
+TPolinom TPolinom::Integration(TPolinom &_Polinom, int var)
 {
-
+	for (int i = 0; i < var; i++)
+	{
+		for (int j = 0; j < _Polinom.monoms.GetSize(); j++)
+		{
+			for (int h = 0; h < 3; h++)
+				_Polinom.monoms[j].power[h]++;
+			for (int h = 0; h < 3; h++)
+			{
+				_Polinom.monoms[j].k = _Polinom.monoms[j].k / _Polinom.monoms[j].power[h];
+			}
+		}
+	}
 }
 
-TPolinom TPolinom::Differentiation(TPolinom &_Polinom, char var)
+TPolinom TPolinom::Differentiation(TPolinom &_Polinom, int var)
 {
-
+	for (int i = 0; i < var; i++)
+	{
+		for (int j = 0; j < _Polinom.monoms.GetSize(); j++)
+		{
+			for (int h = 0; h < 3; h++)
+			{
+				_Polinom.monoms[j].k = _Polinom.monoms[j].k*_Polinom.monoms[j].power[h];
+			}
+			for (int h = 0; h < 3; h++)
+				_Polinom.monoms[j].power[h]--;
+		}
+	}
 }
 
 double TPolinom::Calculate(const double &x, const double &y, const double &z)
@@ -244,7 +266,7 @@ void TPolinom::strPolinom()
 	if (monoms[0].power[0] != 0)
 		polinom = polinom + "x" + to_string(monoms[0].power[0]);
 	if (monoms[0].power[1] != 0)
-		polinom = polinom + "y" + to_string((monoms[0].power[1]);
+		polinom = polinom + "y" + to_string((monoms[0].power[1]));
 	if (monoms[0].power[2] != 0)
 		polinom = polinom + "z" + to_string(monoms[0].power[2]);
 	for (int i = 1; i < monoms.GetSize(); i++)

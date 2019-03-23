@@ -31,8 +31,8 @@ public:
 	TPolinom operator*(TPolinom &_TPolinom);
 	TPolinom operator/(TPolinom &_TPolinom);
 	TPolinom operator%(TPolinom &_TPolinom);
-	TPolinom Integration(TPolinom &_TPolinom, char var);
-	TPolinom Differentiation(TPolinom &_TPolinom, char var);
+	TPolinom Integration(TPolinom &_TPolinom, int var);
+	TPolinom Differentiation(TPolinom &_TPolinom, int var);
 	void SetPolinom(string &_polinom);
 	TList<TMonom> GetPolinom();
 	string GetStrPolinom();
