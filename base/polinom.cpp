@@ -127,34 +127,52 @@ TPolinom TPolinom::operator/(TPolinom &_Polinom)
 
 }
 
-TPolinom TPolinom::Integration(TPolinom &_Polinom, int var)
+TPolinom TPolinom::Integration(TPolinom &_Polinom, char var)
 {
-	for (int i = 0; i < var; i++)
+	for (int i = 0; i < _Polinom.monoms.GetSize(); i++)
 	{
-		for (int j = 0; j < _Polinom.monoms.GetSize(); j++)
+		switch (var)
 		{
-			for (int h = 0; h < 3; h++)
-				_Polinom.monoms[j].power[h]++;
-			for (int h = 0; h < 3; h++)
-			{
-				_Polinom.monoms[j].k = _Polinom.monoms[j].k / _Polinom.monoms[j].power[h];
-			}
+		case 'x':
+		{
+			_Polinom.monoms[i].k = _Polinom.monoms[i].k * _Polinom.monoms[i].power[0];
+			_Polinom.monoms[i].power[0]--;
+		}
+		case 'y':
+		{
+			_Polinom.monoms[i].k = _Polinom.monoms[i].k * _Polinom.monoms[i].power[1];
+			_Polinom.monoms[i].power[1]--;
+		}
+		case 'z':
+		{
+			_Polinom.monoms[i].k = _Polinom.monoms[i].k * _Polinom.monoms[i].power[2];
+			_Polinom.monoms[i].power[2]--;
+		}
 		}
 	}
 }
 
-TPolinom TPolinom::Differentiation(TPolinom &_Polinom, int var)
+TPolinom TPolinom::Differentiation(TPolinom &_Polinom, char var)
 {
-	for (int i = 0; i < var; i++)
+	for (int i = 0; i < _Polinom.monoms.GetSize(); i++)
 	{
-		for (int j = 0; j < _Polinom.monoms.GetSize(); j++)
+		switch (var)
 		{
-			for (int h = 0; h < 3; h++)
-			{
-				_Polinom.monoms[j].k = _Polinom.monoms[j].k*_Polinom.monoms[j].power[h];
-			}
-			for (int h = 0; h < 3; h++)
-				_Polinom.monoms[j].power[h]--;
+		case 'x':
+		{
+			_Polinom.monoms[i].power[0]++;
+			_Polinom.monoms[i].k = _Polinom.monoms[i].k / _Polinom.monoms[i].power[0];
+		}
+		case 'y':
+		{
+			_Polinom.monoms[i].power[1]++;
+			_Polinom.monoms[i].k = _Polinom.monoms[i].k / _Polinom.monoms[i].power[1];
+		}
+		case 'z':
+		{
+			_Polinom.monoms[i].power[2]++;
+			_Polinom.monoms[i].k = _Polinom.monoms[i].k / _Polinom.monoms[i].power[2];
+		}
 		}
 	}
 }
