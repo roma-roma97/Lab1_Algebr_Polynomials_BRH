@@ -106,38 +106,49 @@ struct tab
 	TPolinom values;
 	bool flag = false;
 };
-
+int Hash_func(int key, int n)
+{
+	return key % MaxSize + 1;
+}
 class HashTable
 {
 private:
-	tab table[HASH_SIZE];
+	tab table[MaxSize];
 public:
-	HashTable() :
+	HashTable();
 		void Delete(int key_)
 	{
-		int index = 0;
-		int tmp = Hash(key_);
+			table[Hash_func(key_, 0)].flag = false;
 
 	}
 	void Add(TPolinom elem, int key_)
 	{
-		int tmp = Hash(key_);
-		if (!table[tmp].flag)
-			table[tmp].values = elem;
+		int i = 0;
+		if (!table[Hash_func(key_, i)].flag)
+			table[Hash_func(key_, i)].values = elem;
 		else
 		{
-			while (table[tmp].flag == true)
+			while (table[Hash_func(key_, i)].flag == true)
 			{
-				tmp++;
+				i++;
 			}
-			table[tmp].values = elem;
+			table[Hash_func(key_, i)].values = elem;
 		}
 
 	}
-	TPolinom Get(int key_)
+	TPolinom Search(int key_)
 	{
-		int tmp = Hash(key_);
-
+		int i = 0;
+		if (table[Hash_func(key_, i)].flag)
+			return table[Hash_func(key_, i)].values;
+		else
+		{
+			while (!table[Hash_func(key_, i)].flag)
+			{
+				i++;
+				return table[Hash_func(key_, i)].values;
+			}
+		}
 	}
 };
 
