@@ -16,9 +16,24 @@ template <class T> class TableLine
 public:
 	void Insert(T _data, string _key)
 	{
-		data[count].key = _key;
-		data[count].data = _data;
-		count++;
+		if (count == 0)
+		{
+			data[count].key = _key;
+			data[count].data = _data;
+			count++;
+		}
+		else {
+			for (int i = 0; i < count; i++)
+			{
+				if (_key == data[i].key)
+					throw ("Key is set");
+				else {
+					data[count].key = _key;
+					data[count].data = _data;
+					count++;
+				}
+			}
+		}
 	}
 	void Delete(string _key)
 	{
@@ -74,12 +89,23 @@ public:
 	void Insert(T _data, string _key)
 	{
 		if (count == 0)
-			throw("Table is empty");
-		else {
-			data[count].data = _data;
+		{
 			data[count].key = _key;
-			Sort(data, count);
+			data[count].data = _data;
 			count++;
+		}
+		else {
+			for (int i = 0; i < count; i++)
+			{
+				if (_key == data[i].key)
+					throw ("Key is set");
+				else {
+					data[count].key = _key;
+					data[count].data = _data;
+					count++;
+				}
+			}
+			Sort(data, count);
 		}
 	}
 	void Delete(string _key)
