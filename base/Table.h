@@ -1,4 +1,5 @@
 #include <cstring>
+#include "polinom.h"
 
 const int MaxSize = 100;
 using namespace std;
@@ -9,12 +10,13 @@ template <class T, typename K> struct TRecord
 	K key;
 };
 
-template <class T> class TableLine
+/*template <class TPolinom>*/ class TableLine
 {
-	TRecord <T, string> data[MaxSize];
+	TRecord <TPolinom, int> data[MaxSize];
 	int count = 0;
 public:
-	void Insert(T _data, string _key)
+	TableLine() {};
+	void Insert(TPolinom _data, int _key)
 	{
 		if (count == 0)
 		{
@@ -35,7 +37,7 @@ public:
 			}
 		}
 	}
-	void Delete(string _key)
+	void Delete(int _key)
 	{
 		if (count == 0)
 			throw("Table is empty");
@@ -51,7 +53,7 @@ public:
 			count--;
 		}
 	}
-	T Search(string _key)
+	TPolinom Search(int _key)
 	{
 		if (count == 0)
 			throw("Table is empty");
@@ -64,15 +66,16 @@ public:
 };
 
 
-template <class T> class TableSort
+/*template <class T>*/ 
+class TableSort
 {
-	TRecord<T, string>data[MaxSize];
+	TRecord <TPolinom, int> data[MaxSize];
 	int count = 0;
 public:
-
-	void Sort(TRecord *_data, int _count)
+	TableSort() {};
+	void Sort(TRecord <TPolinom,int> *_data, int _count)
 	{
-		TRecord <T, string> tmp;
+		TRecord<TPolinom, int> tmp;
 		int ind;
 		for (int i = 1; i < _count; i++)
 		{
@@ -86,7 +89,7 @@ public:
 			}
 		}
 	}
-	void Insert(T _data, string _key)
+	void Insert(TPolinom _data, int _key)
 	{
 		if (count == 0)
 		{
@@ -108,7 +111,7 @@ public:
 			Sort(data, count);
 		}
 	}
-	void Delete(string _key)
+	void Delete(int _key)
 	{
 		if (count == 0)
 			throw("Table is empty");
@@ -126,7 +129,7 @@ public:
 			Sort(data, count);
 		}
 	}
-	T Search(string _key)
+	TPolinom Search(int _key)
 	{
 		if (count == 0)
 			throw("Table is empty");
@@ -158,35 +161,35 @@ public:
 
 	}
 };
-
-template <class T> class TableTree
-{
-	//Cell<T, string>data[MaxSize];
-public:
-	void Insert(T _data, string _key);
-	void Delete(string _key);
-	T Search(string _key);
-};
-
-template <class T> class TableHashList
-{
-	Cell<T, string>data[MaxSize];
-public:
-	void Insert(T _data, string _key);
-	void Delete(string _key);
-	T Search(string _key);
-};
-
-template <class T> class TableHash
-{
-	Cell<T, string>data[MaxSize];
-public:
-	void Insert(T _data, string _key);
-	void Delete(string _key);
-	T Search(string _key);
-};
-
-template<class T>
-inline void TableLine<T>::Insert(T _data, string _key)
-{
-}
+//
+//template <class T> class TableTree
+//{
+//	//Cell<T, string>data[MaxSize];
+//public:
+//	void Insert(T _data, string _key);
+//	void Delete(string _key);
+//	T Search(string _key);
+//};
+//
+//template <class T> class TableHashList
+//{
+//	<T, string>data[MaxSize];
+//public:
+//	void Insert(T _data, string _key);
+//	void Delete(string _key);
+//	T Search(string _key);
+//};
+//
+//template <class T> class TableHash
+//{
+//	Cell<T, string>data[MaxSize];
+//public:
+//	void Insert(T _data, string _key);
+//	void Delete(string _key);
+//	T Search(string _key);
+//};
+//
+//template<class T>
+//inline void TableLine<T>::Insert(T _data, string _key)
+//{
+//}
