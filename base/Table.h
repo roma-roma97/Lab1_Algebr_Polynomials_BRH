@@ -1,4 +1,5 @@
 #include <cstring>
+#include <iostream>
 #include "list.h"
 const int MaxSize = 100;
 
@@ -70,7 +71,7 @@ template <class T> class HashTable
 private:
 	TList<Cell<T>> table[MaxSize];
 public:
-	HashTable();
+	HashTable() {};
 	void Delete(int key_)
 	{
 		int tmp = Hash(key_);
@@ -106,9 +107,14 @@ template <class T> class Hash_Table
 {
 private:
 	tab<T> table[MaxSize];
+	int count=0;
+	tab<T> GetTab()
+	{
+		return table;
+	}
 public:
 	Hash_Table() {};
-		void Delete(int key_)
+	void Delete(int key_)
 	{
 			tmp = Hash(key_);
 			while (table[tmp].key != key_)
@@ -116,7 +122,10 @@ public:
 				tmp++;
 			}
 			if (table[tmp].key == key_)
+			{
 				table[tmp].flag = false;
+				count--;
+			}
 	}
 	void Insert(T elem, int key_)
 	{
@@ -129,20 +138,34 @@ public:
 		{
 			table[tmp].rec = elem;
 			table[tmp].key = key_;
+			count++;
 		}
 	}
 	T Search(int key_)
 	{
-		for (int i = 0; i < MaxSize; i++)
+		tmp = Hash(key_);
+		while (table[tmp].key != key_)
 		{
-			if (table[i].key == key_)
-				return table[i].rec;
-			else
-				cout << "Key is not found"<<endl;
+			tmp++;
 		}
-
+		if (table[tmp].key == key_)
+			return table[tmp].rec;
+		else
+			throw"key is not found";
+	}
+	friend ostream& operator<<(ostream &out, const Hash_Table &t)
+	{
+		int tmp = MaxSize;
+		for (int i = MaxSize; i > 0; i--)
+		{
+			i -= tmp;
+			out <<i <<"|"<<t.Search(i) << "|";
+			tmp--;
+		}
+		return out;
 	}
 };
+
 
 
 
