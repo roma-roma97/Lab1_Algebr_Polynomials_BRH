@@ -138,11 +138,24 @@ public:
 	{
 		if (count == 0)
 			throw("Table is empty");
-		else {
-			for (int i = 0; i < count; i++)
-				if (data[i].key == _key)
-					return data[i].data;
-			throw("Key isn`t found");
+		else
+		{
+			bool flag = false;
+			int l = 0;
+			int r = count;
+			int mid;
+			while ((l <= r) && (flag != true))
+			{
+				mid = (l + r) / 2;
+				if (data[mid].key == _key)
+					flag = true;
+				if (data[mid].key > _key)
+					r = mid - 1;
+				else l = mid + 1;
+			}
+			if (flag == false)
+				throw("Key isn`t found");
+			return data[mid].data;
 		}
 	}
 };
