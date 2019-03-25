@@ -1,11 +1,11 @@
 #include <cstring>
-
+#include "list.h"
 const int MaxSize = 100;
 
-template <class T, class K> struct Cell
+template <class T> struct TRecord
 {
-	T data;
-	K key;
+	TList<T> data;
+	int key;
 };
 
 template <class T> class TableLine
@@ -45,110 +45,102 @@ public:
 	T Search(string _key);
 };
 
-struct Pair
-{
-	int key;
-	TList<TPolinom> values;
-};
 
+template<class T> struct Cell
+{
+	T data;
+	int key;
+	Cell() 
+	{
+		data = NULL;
+		key = 0;
+	}
+	Cell(T elem, int k)
+	{
+		data = elem;
+		key = k;
+	}
+};
 int Hash(int key)
 {
 	return key % MaxSize;
 }
-class HashTable
+template <class T> class HashTable
 {
 private:
-	Pair table[MaxSize];
+	TList<Cell<T>> table[MaxSize];
 public:
 	HashTable();
-	void Delete(string first_key, int key_)
+	void Delete(int key_)
 	{
-		int index = 0;
 		int tmp = Hash(key_);
-		Node<TPolinom> *p = table[tmp].values.begin();
-		while (p != nullptr)
+		for (int i = 0; i < table[tmp].GetSize(); i++)
 		{
-			if (p->key != first_key)
-			{
-				p = p->pNext;
-				index++;
-			}
-			if (p-> == first_key)
-				table[tmp].values.DeleteEl(index);
+			if (table[tmp][i].key == key_)
+				table[tmp].DeleteEl(i);
 		}
 	}
-	void Add(TPolinom elem, int key_)
+	void Insert(T elem, int key_)
 	{
 		int tmp = Hash(key_);
-		table[tmp].values.push_back(elem);
-
+		Cell<T> El(elem, key_);
+		table[tmp].Push_back(El);
 	}
-	TPolinom Get(string first_key, int key_)
+	T Search(int key_)
 	{
-		int index = 0;
 		int tmp = Hash(key_);
-		Node<TPolinom> *p = table[tmp].values.begin();
-		while (p != nullptr)
+		for (int i = 0; i < table[tmp].GetSize(); i++)
 		{
-			if (p->key != first_key)
-			{
-				p = p->pNext;
-				index++;
-			}
-			if (p->key == first_key)
-				return table[tmp].values[index];
+			if (table[tmp][i].key == key_)
+				return table[tmp][i];
 		}
 	}
 };
-struct tab
+template <class T> struct tab
 {
 	int key;
-	TPolinom values;
+	T rec;
 	bool flag = false;
 };
-int Hash_func(int key, int n)
-{
-	return key % MaxSize + 1;
-}
-class HashTable
+template <class T> class Hash_Table
 {
 private:
-	tab table[MaxSize];
+	tab<T> table[MaxSize];
 public:
-	HashTable();
+	HashTable() {};
 		void Delete(int key_)
 	{
-			table[Hash_func(key_, 0)].flag = false;
-
-	}
-	void Add(TPolinom elem, int key_)
-	{
-		int i = 0;
-		if (!table[Hash_func(key_, i)].flag)
-			table[Hash_func(key_, i)].values = elem;
-		else
-		{
-			while (table[Hash_func(key_, i)].flag == true)
+			tmp = Hash(key_);
+			while (table[tmp].key != key_)
 			{
-				i++;
+				tmp++;
 			}
-			table[Hash_func(key_, i)].values = elem;
+			if (table[tmp].key == key_)
+				table[tmp].flag = false;
+	}
+	void Insert(T elem, int key_)
+	{
+		tmp = Hash(key_);
+		while (table[tmp].flag)
+		{
+			tmp++;
+		}
+		if (!table[tmp].flag)
+		{
+			table[tmp].rec = elem;
+			table[tmp].key = key_;
+		}
+	}
+	T Search(int key_)
+	{
+		for (int i = 0; i < MaxSize; i++)
+		{
+			if (table[i].key == key_)
+				return table[i].rec;
+			else
+				cout << "Key is not found"<<endl;
 		}
 
-	}
-	TPolinom Search(int key_)
-	{
-		int i = 0;
-		if (table[Hash_func(key_, i)].flag)
-			return table[Hash_func(key_, i)].values;
-		else
-		{
-			while (!table[Hash_func(key_, i)].flag)
-			{
-				i++;
-				return table[Hash_func(key_, i)].values;
-			}
-		}
 	}
 };
 
