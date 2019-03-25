@@ -10,13 +10,13 @@ template <class T, typename K> struct TRecord
 	K key;
 };
 
-/*template <class TPolinom>*/ class TableLine
+template <class T> class TableLine
 {
-	TRecord <TPolinom, int> data[MaxSize];
+	TRecord <T, int> data[MaxSize];
 	int count = 0;
 public:
 	TableLine() {};
-	void Insert(TPolinom _data, int _key)
+	void Insert(T _data, int _key)
 	{
 		if (count == 0)
 		{
@@ -41,7 +41,12 @@ public:
 	{
 		if (count == 0)
 			throw("Table is empty");
-		else {
+		else
+		{
+			if (count == 1)
+			{
+				count--;
+			}
 			for (int i = 0; i < count; i++)
 			{
 				if (data[i].key == _key)
@@ -53,7 +58,7 @@ public:
 			count--;
 		}
 	}
-	TPolinom Search(int _key)
+	T Search(int _key)
 	{
 		if (count == 0)
 			throw("Table is empty");
@@ -61,21 +66,21 @@ public:
 			for (int i = 0; i < count; i++)
 				if (data[i].key == _key)
 					return data[i].data;
+			throw("Key isn`t found");
 		}
 	}
 };
 
 
-/*template <class T>*/ 
-class TableSort
+template <class T> class TableSort
 {
-	TRecord <TPolinom, int> data[MaxSize];
+	TRecord <T, int> data[MaxSize];
 	int count = 0;
 public:
 	TableSort() {};
-	void Sort(TRecord <TPolinom,int> *_data, int _count)
+	void Sort(TRecord <T, int> *_data, int _count)
 	{
-		TRecord<TPolinom, int> tmp;
+		TRecord<T, int> tmp;
 		int ind;
 		for (int i = 1; i < _count; i++)
 		{
@@ -89,7 +94,7 @@ public:
 			}
 		}
 	}
-	void Insert(TPolinom _data, int _key)
+	void Insert(T _data, int _key)
 	{
 		if (count == 0)
 		{
@@ -129,7 +134,7 @@ public:
 			Sort(data, count);
 		}
 	}
-	TPolinom Search(int _key)
+	T Search(int _key)
 	{
 		if (count == 0)
 			throw("Table is empty");
@@ -137,6 +142,7 @@ public:
 			for (int i = 0; i < count; i++)
 				if (data[i].key == _key)
 					return data[i].data;
+			throw("Key isn`t found");
 		}
 	}
 };
