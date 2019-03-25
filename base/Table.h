@@ -64,7 +64,7 @@ template<class T> struct Cell
 int Hash(int key)
 {
 	return key % MaxSize;
-}
+};
 template <class T> class HashTable
 {
 private:
@@ -92,7 +92,7 @@ public:
 		for (int i = 0; i < table[tmp].GetSize(); i++)
 		{
 			if (table[tmp][i].key == key_)
-				return table[tmp][i];
+				return table[tmp][i].data;
 		}
 	}
 };
@@ -107,7 +107,7 @@ template <class T> class Hash_Table
 private:
 	tab<T> table[MaxSize];
 public:
-	HashTable() {};
+	Hash_Table() {};
 		void Delete(int key_)
 	{
 			tmp = Hash(key_);
