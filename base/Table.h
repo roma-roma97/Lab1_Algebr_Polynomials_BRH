@@ -164,20 +164,30 @@ template <class T> class TableList
 {
 	TList<TRecord<T, string>> data;
 public:
+	void CreateRing(TList<TRecord<T, string>> _data)
+	{
+		Node<TRecord<T, string>> *first = data->begin();
+		while (first->pNext != nullptr)
+			first = first->pNext;
+		first->pNext = begin();
+	}
 	TableList()
 	{
+		Node<TRecord<T, string>> *first = data->begin();
 
 	}
 	void Insert(T _data, string _key)
 	{
+		Node<TRecord<T, string>> *first = data->begin();
 	}
 	void Delete(string _key)
 	{
-
+		Node<TRecord<T, string>> *first = data->begin();
 	}
 	T Search(string _key)
 	{
-
+		Node<TRecord<T, string>> *first = data->begin();
+		while (first->pNext != 
 	}
 };
 //
