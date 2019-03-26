@@ -1,6 +1,5 @@
-п»ї#ifndef __LIST_H__
+#ifndef __LIST_H__
 #define __LIST_H__
-
 
 using namespace std;
 
@@ -31,7 +30,7 @@ public:
 	bool IsEmpty();
 	void Push_back(const ValType &_key);
 	void Push_begin(const ValType &_key);
-	//void Push_next(Node *tmp, const ValType &_key); //РІСЃС‚Р°РІРёС‚СЊ РІ СЃР»РµРґСѓСЋС‰СѓСЋ СЏС‡РµР№РєСѓ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РїРµСЂРµРґР°РЅРЅРѕРіРѕ Р·РІРµРЅР°.
+	//void Push_next(Node *tmp, const ValType &_key); //вставить в следующую ячейку относительно переданного звена.
 	void Insert(int pos, ValType _key);
 	void DeleteEl(int pos);
 	void Clear();
@@ -59,7 +58,7 @@ template <class ValType> TList<ValType>::~TList()
 	Clear();
 }
 
-template <class ValType> TList<ValType>::TList(const TList &_TList) //РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ.
+template <class ValType> TList<ValType>::TList(const TList &_TList) //Конструктор копирования.
 {
 	size = _TList.size;
 	Node<ValType> *tmp = pFirst;
@@ -86,7 +85,7 @@ template <class ValType> TList<ValType>::TList(const TList &_TList) //РљРѕРЅСЃС‚
 	}
 }
 
-template <class ValType> TList<ValType> &TList<ValType>::operator=(const TList &_TList)//РѕРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
+template <class ValType> TList<ValType> &TList<ValType>::operator=(const TList &_TList)//оператор присваивания
 {
 	if (this == &_TList)
 		return *this;
