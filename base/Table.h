@@ -1,5 +1,6 @@
 #include <cstring>
 #include "polinom.h"
+#include "list.h"
 
 const int MaxSize = 100;
 using namespace std;
@@ -162,32 +163,50 @@ public:
 
 template <class T> class TableList
 {
-	TList<TRecord<T, string>> data;
+	TList<TRecord<T, int>> data;
 public:
 	void CreateRing(TList<TRecord<T, string>> _data)
 	{
-		Node<TRecord<T, string>> *first = data->begin();
+		Node<TRecord<T, int>> *first = data->begin();
 		while (first->pNext != nullptr)
 			first = first->pNext;
-		first->pNext = begin();
+		first->pNext = data->begin();
 	}
 	TableList()
 	{
-		Node<TRecord<T, string>> *first = data->begin();
+		CreateRing(data);
+	}
+	void Insert(T _data, int _key)
+	{
+		Node<TRecord<T, int>> *first = data->begin();
+		TRecord<T, int> tmp;
+		tmp.data = _data;
+		tmp.key = _key;
+		data.Push_back(tmp);
+		CreateRing();
+	}
+	void Delete(int _key)
+	{
+		int count = 0;
+		Node<TRecord<T, int>> *first = data->begin();
+		while (first->pNext != data->begin())
+		{
+			count++;
+			if (first->key->key == _key)
+				data.DeleteEl(count);
 
+		}
 	}
-	void Insert(T _data, string _key)
+	T Search(int _key)
 	{
-		Node<TRecord<T, string>> *first = data->begin();
-	}
-	void Delete(string _key)
-	{
-		Node<TRecord<T, string>> *first = data->begin();
-	}
-	T Search(string _key)
-	{
-		Node<TRecord<T, string>> *first = data->begin();
-		while (first->pNext != 
+		Node<TRecord<T, int>> *first = data->begin();
+		while (first->pNext != data->begin())
+		{
+			if (first->key->key == _key)
+				return first->key->key;
+			first = first->pNext;
+		}
+		throw("Keys isn`t found");
 	}
 };
 //
