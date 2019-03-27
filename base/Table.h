@@ -103,7 +103,7 @@ public:
 			cout << i << "|";
 			for (int j = 0; j < table[tmp].GetSize(); j++)
 			{
-				count << table[i][j].data << "|";
+				count<< table[i][j].key << "|" << table[i][j].data << "|";
 			}
 			cout << endl;
 		}
@@ -166,11 +166,11 @@ public:
 	}
 	void Show()
 	{
+		cout << i << "|";
 		for (int i = 0; i < MaxSize; i++)
 		{
-			cout << i<<"|";
 			if (table[i].flag)
-				count << table[i].rec << "|" << endl;
+				count <<table[i].key <<"|"<<table[i].rec << "|" << endl;
 		}
 	}
 };
