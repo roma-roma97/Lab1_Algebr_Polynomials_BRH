@@ -70,6 +70,20 @@ public:
 			throw("Key isn`t found");
 		}
 	}
+	void Show()
+	{
+		for (int i = 0; i < MaxSize; i++)
+		{
+			if (data[i].key != 0)
+				cout << data[i].key << "|";
+			if (data[i].data != NULL)
+				cout << data[i].data << "|" << endl;
+			else
+			{
+				cout << "-" << endl;
+			}
+		}
+	}
 };
 
 
@@ -159,26 +173,42 @@ public:
 			return data[mid].data;
 		}
 	}
+	void Show()
+	{
+		for (int i = 0; i < MaxSize; i++)
+		{
+			if (data[i].key != 0)
+				cout << data[i].key << "|";
+			if (data[i].data != NULL)
+				cout << data[i].data << "|" << endl;
+			else
+			{
+				cout << "-" << endl;
+			}
+		}
+	}
 };
 
 template <class T> class TableList
 {
 	TList<TRecord<T, int>> data;
 public:
-	void CreateRing(TList<TRecord<T, string>> _data)
+	void CreateRing()
 	{
-		Node<TRecord<T, int>> *first = data->begin();
+		Node<TRecord<T, int>> *first = data.begin();
+		if (first == nullptr)
+			return;
 		while (first->pNext != nullptr)
 			first = first->pNext;
-		first->pNext = data->begin();
+		first->pNext = data.begin();
+		data.begin()->pPrev = first;
 	}
 	TableList()
 	{
-		CreateRing(data);
+		CreateRing();
 	}
 	void Insert(T _data, int _key)
 	{
-		Node<TRecord<T, int>> *first = data->begin();
 		TRecord<T, int> tmp;
 		tmp.data = _data;
 		tmp.key = _key;
@@ -188,13 +218,13 @@ public:
 	void Delete(int _key)
 	{
 		int count = 0;
-		Node<TRecord<T, int>> *first = data->begin();
-		while (first->pNext != data->begin())
+		Node<TRecord<T, int>> *first = data.begin();
+		while (first->pNext != data.begin())
 		{
 			count++;
-			if (first->key->key == _key)
+			if (first->pNext->key.key == _key)
 				data.DeleteEl(count);
-
+			first = first->pNext;
 		}
 	}
 	T Search(int _key)
@@ -207,6 +237,16 @@ public:
 			first = first->pNext;
 		}
 		throw("Keys isn`t found");
+	}
+	void Show()
+	{
+		Node<TRecord<T, int>> *first = data->begin();
+		while (first->pNext != data->begin())
+		{
+			cout << data[count].key << "|";
+			cout << data[count].data << "|" << endl;
+			first = first->pNext;
+		}
 	}
 };
 //

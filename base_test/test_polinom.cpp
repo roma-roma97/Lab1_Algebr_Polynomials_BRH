@@ -7,7 +7,7 @@
 //}
 //TEST(TPolinom, can_set_polinom)
 //{
-//	ASSERT_NO_THROW(TPolinom p("x2*y1*z4+x1*y3*z1"));
+//	ASSERT_NO_THROW(TPolinom p("x^2*y^1*z^4+x^1*y^3*z^1"));
 //}
 //TEST(TPolinom, can_create_copy)
 //{

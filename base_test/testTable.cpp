@@ -87,3 +87,21 @@ TEST(TableSort, can_search_in_empty_table)
 	TableSort <int> tmp;
 	ASSERT_ANY_THROW(tmp.Search(1));
 }
+//TableList
+TEST(TableList, can_create_table)
+{
+	ASSERT_NO_THROW(TableList <int>  tmp);
+}
+TEST(TableList, can_insert_in_table)
+{
+	TableList <int> tmp;
+	int h = 9;
+	ASSERT_NO_THROW(tmp.Insert(h, 1));
+}
+TEST(TableList, can_delete_cell)
+{
+	TableList <int> tmp;
+	int pol = 9;
+	tmp.Insert(pol, 1);
+	ASSERT_NO_THROW(tmp.Delete(1));
+}
