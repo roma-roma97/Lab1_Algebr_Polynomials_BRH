@@ -85,6 +85,24 @@ TPolinom TPolinom::operator-(TPolinom &_Polinom)
 	return tmp;
 }
 
+TPolinom TPolinom::operator/(TPolinom &del)
+{
+	TPolinom div;
+	TPolinom tmp;
+	for (int i = 0; i < del.monoms.GetSize(); i++)
+	{
+		if (monoms[i].power >= del.monoms[0].power)
+		{
+			tmp.monoms[i].k = (monoms[i].k / del.monoms[0].k);
+			tmp.monoms[i].power = (monoms[i].power - del.monoms[0].power);
+			div.monoms.Push_back(tmp.monoms[i]);
+		}
+		else
+			return div;
+		return div;
+	}
+}
+
 double TPolinom::Calculate(const double &x, const double &y, const double &z)
 {
 	double res = 0;

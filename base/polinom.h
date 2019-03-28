@@ -1,7 +1,7 @@
 #include<iostream>
 #include "list.h"
 #include <cstring>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 
