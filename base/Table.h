@@ -51,11 +51,7 @@ template<class T> struct Cell
 {
 	T data;
 	int key;
-	Cell() 
-	{
-		data = NULL;
-		key = 0;
-	}
+	Cell() {};
 	Cell(T elem, int k)
 	{
 		data = elem;
@@ -78,8 +74,12 @@ public:
 		for (int i = 0; i < table[tmp].GetSize(); i++)
 		{
 			if (table[tmp][i].key == key_)
+			{
 				table[tmp].DeleteEl(i);
+				return;
+			}
 		}
+		throw "Key is not found";
 	}
 	void Insert(T elem, int key_)
 	{
@@ -95,6 +95,7 @@ public:
 			if (table[tmp][i].key == key_)
 				return table[tmp][i].data;
 		}
+		throw "Key is not found";
 	}
 	void Show()
 	{
@@ -114,34 +115,41 @@ template <class T> struct tab
 	int key;
 	T rec;
 	bool flag = false;
+	tab() {};
 };
 template <class T> class Hash_Table
 {
 private:
 	tab<T> table[MaxSize];
-	int count = 0;
-	tab<T> GetTab()
-	{
-		return table;
-	}
 public:
 	Hash_Table() {};
 	void Delete(int key_)
 	{
-		tmp = Hash(key_);
-		while (table[tmp].key != key_)
-		{
-			tmp++;
-		}
-		if (table[tmp].key == key_)
+		int tmp = Hash(key_);
+		if (table[tmp].key == key_ && table[tmp].flag)
 		{
 			table[tmp].flag = false;
-			count--;
+			return;
 		}
+		else
+		{
+			while (table[tmp].key!=key_ && table[tmp].flag)
+			{
+				tmp++;
+				if (tmp == (MaxSize + 1))
+					throw "Key is not found";
+			}
+			if (table[tmp].key == key_)
+			{
+				table[tmp].flag = false;
+				return;
+			}
+		}
+		throw "Key is not found";
 	}
 	void Insert(T elem, int key_)
 	{
-		tmp = Hash(key_);
+		int tmp = Hash(key_);
 		while (table[tmp].flag)
 		{
 			tmp++;
@@ -150,19 +158,22 @@ public:
 		{
 			table[tmp].rec = elem;
 			table[tmp].key = key_;
-			count++;
+			table[tmp].flag = true;
 		}
 	}
 	T Search(int key_)
 	{
-		tmp = Hash(key_);
+		int tmp = Hash(key_);
 		while (table[tmp].flag)
 		{
 			if (table[tmp].key == key_)
 				return table[tmp].rec;
 			tmp++;
+			if (tmp == (MaxSize + 1))
+				throw "Key is not found";
 		}
-		throw "Key is not found";
+		if (!table[tmp].flag)
+			throw "Key is not found";
 	}
 	void Show()
 	{
