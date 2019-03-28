@@ -43,6 +43,8 @@ template <class ValType> TList<ValType>::TList()
 {
 	pFirst = nullptr;
 	pLast = nullptr;
+	pLast->pNext = pFirst;
+	pFirst->pPrev = pLast;
 	size = 0;
 }
 
@@ -52,6 +54,8 @@ template <class ValType> TList<ValType>::TList(const ValType &_key)
 	pFirst->key = _key;
 	size = 1;
 	pLast = pFirst;
+	pLast->pNext = pFirst;
+	pFirst->pPrev = pLast;
 }
 
 template <class ValType> TList<ValType>::~TList()
@@ -184,6 +188,8 @@ template <class ValType> void TList<ValType>::Push_back(const ValType &_key)
 		pLast = pLast->pNext;
 		pLast->key = _key;
 		size++;
+		pLast->pNext = pFirst;
+		pFirst->pPrev = pLast;
 	}
 }
 
@@ -200,6 +206,8 @@ template <class ValType> void TList<ValType>::Push_begin(const ValType &_key)
 	pFirst = pFirst->pPrev;
 	pFirst->key = _key;
 	size++;
+	pLast->pNext = pFirst;
+	pFirst->pPrev = pLast;
 }
 
 //template <class ValType> void TList<ValType>::Push_next(Node *tmp, const ValType &_key)
@@ -238,6 +246,8 @@ template <class ValType> void TList<ValType>::Insert(int pos, ValType _key)
 		pLast->key = _key;
 		pLast->pNext->pPrev = pLast;
 		pLast = pLast->pNext;
+		pLast->pNext = pFirst;
+		pFirst->pPrev = pLast;
 		size++;
 		return;
 	}
@@ -285,6 +295,8 @@ template <class ValType> void TList<ValType>::DeleteEl(int pos)
 		pLast = pLast->pPrev;
 		delete tmp;
 		size--;
+		pLast->pNext = pFirst;
+		pFirst->pPrev = pLast;
 		return;
 	}
 	for (int i = 0; i < pos; i++)

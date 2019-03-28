@@ -46,17 +46,16 @@ const int MaxSize = 100;
 //	T Search(string _key);
 //};
 
-
 template<class T> struct Cell
 {
 	T data;
 	int key;
-	Cell() {};
+	/*Cell() {};
 	Cell(T elem, int k)
 	{
 		data = elem;
 		key = k;
-	}
+	}*/
 };
 int Hash(int key)
 {
@@ -84,7 +83,9 @@ public:
 	void Insert(T elem, int key_)
 	{
 		int tmp = Hash(key_);
-		Cell<T> El(elem, key_);
+		Cell<T> El/*(elem, key_)*/;
+		El.data = elem;
+		El.key = key_;
 		table[tmp].Push_back(El);
 	}
 	T Search(int key_)
@@ -115,7 +116,6 @@ template <class T> struct tab
 	int key;
 	T rec;
 	bool flag = false;
-	tab() {};
 };
 template <class T> class Hash_Table
 {
