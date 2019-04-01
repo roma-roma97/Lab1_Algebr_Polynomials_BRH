@@ -1,4 +1,4 @@
-п»ї#ifndef __LIST_H__
+#ifndef __LIST_H__
 #define __LIST_H__
 
 
@@ -25,13 +25,13 @@ public:
 	TList(const ValType &_key);
 	~TList();
 	TList(const TList &_TList);
-	TList& operator=(const TList &_TList);
+	TList& operator=(TList &_TList);
 	ValType& operator[](int pos);
 	Node<ValType>* begin();
 	bool IsEmpty();
-	void Push_back(const ValType &_key);
+	void Push_back(ValType &_key);
 	void Push_begin(const ValType &_key);
-	//void Push_next(Node *tmp, const ValType &_key); //РІСЃС‚Р°РІРёС‚СЊ РІ СЃР»РµРґСѓСЋС‰СѓСЋ СЏС‡РµР№РєСѓ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РїРµСЂРµРґР°РЅРЅРѕРіРѕ Р·РІРµРЅР°.
+	//void Push_next(Node *tmp, const ValType &_key); //вставить в следующую ячейку относительно переданного звена.
 	void Insert(int pos, ValType _key);
 	void DeleteEl(int pos);
 	void Clear();
@@ -59,7 +59,7 @@ template <class ValType> TList<ValType>::~TList()
 	Clear();
 }
 
-template <class ValType> TList<ValType>::TList(const TList &_TList) //РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ.
+template <class ValType> TList<ValType>::TList(const TList &_TList) //Конструктор копирования.
 {
 	size = _TList.size;
 	Node<ValType> *tmp = pFirst;
@@ -86,7 +86,7 @@ template <class ValType> TList<ValType>::TList(const TList &_TList) //РљРѕРЅСЃС‚
 	}
 }
 
-template <class ValType> TList<ValType> &TList<ValType>::operator=(const TList &_TList)//РѕРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
+template <class ValType> TList<ValType> &TList<ValType>::operator=(TList &_TList)//оператор присваивания
 {
 	if (this == &_TList)
 		return *this;
@@ -140,10 +140,11 @@ template <class ValType> TList<ValType> &TList<ValType>::operator=(const TList &
 		{
 			tmp->pNext = new Node<ValType>;
 			tmp->pNext->pPrev = tmp;
+			tmp->key = tmp1->key;
 			tmp = tmp->pNext;
 			tmp1 = tmp1->pNext;
-			tmp->key = tmp1->key;
 		}
+		tmp->key = tmp1->key;
 		pLast = tmp;
 	}
 	size = _TList.size;
@@ -167,7 +168,7 @@ template <class ValType> bool TList<ValType>::IsEmpty()
 	return pFirst == nullptr;
 }
 
-template <class ValType> void TList<ValType>::Push_back(const ValType &_key)
+template <class ValType> void TList<ValType>::Push_back(ValType &_key)
 {
 	if (IsEmpty())
 	{
