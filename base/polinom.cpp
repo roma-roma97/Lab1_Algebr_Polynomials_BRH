@@ -35,17 +35,19 @@ TPolinom TPolinom::operator+(TPolinom &_Polinom)
 	int i = 0, j = 0;
 	while ((i < monoms.GetSize()) && (j < _Polinom.monoms.GetSize()))
 	{
-		if (monoms[i].power > _Polinom.monoms[j].power)
-		{
-			tmp.monoms.Push_back(monoms[i]);
-			i++;
-		}
-		else if (monoms[i].power < _Polinom.monoms[j].power)
-		{
-			tmp.monoms.Push_back(_Polinom.monoms[j]);
-			j++;
-		}
-		else if ((monoms[i].k + _Polinom.monoms[j].k) != 0)
+		for (int h = 0; h < 3; h++)
+			if (monoms[i].power[h] > _Polinom.monoms[j].power[h])
+			{
+				tmp.monoms.Push_back(monoms[i]);
+				i++;
+			}
+		for (int h = 0; h < 3; h++)
+			if (monoms[i].power[h] < _Polinom.monoms[j].power[h])
+			{
+				tmp.monoms.Push_back(_Polinom.monoms[j]);
+				j++;
+			}
+		if ((monoms[i].k + _Polinom.monoms[j].k) != 0)
 		{
 			monom.k = monoms[i].k + _Polinom.monoms[j].k;
 			for (int h = 0; h < 3; h++)
