@@ -8,6 +8,7 @@ TPolinom::TPolinom()
 	polinom = "";
 }
 
+
 TPolinom::TPolinom(string _polinom)
 {
 	SetPolinom(_polinom);
@@ -35,14 +36,12 @@ TPolinom TPolinom::operator+(TPolinom &_Polinom)
 	int i = 0, j = 0;
 	while ((i < monoms.GetSize()) && (j < _Polinom.monoms.GetSize()))
 	{
-		for (int h = 0; h < 3; h++)
-			if (monoms[i].power[h] > _Polinom.monoms[j].power[h])
+			if (monoms[i] > _Polinom.monoms[j])
 			{
 				tmp.monoms.Push_back(monoms[i]);
 				i++;
 			}
-		for (int h = 0; h < 3; h++)
-			if (monoms[i].power[h] < _Polinom.monoms[j].power[h])
+			if (monoms[i] < _Polinom.monoms[j])
 			{
 				tmp.monoms.Push_back(_Polinom.monoms[j]);
 				j++;
@@ -90,17 +89,16 @@ TPolinom TPolinom::operator-(TPolinom &_Polinom)
 
 TPolinom TPolinom::operator*(TPolinom &_Polinom)
 {
-	TPolinom tmp;
-	tmp = _Polinom;
+
 	TPolinom emp;
 	TMonom t;
 	for (int i = 0; i < monoms.GetSize(); i++)
 	{
 		for (int j = 0; j < _Polinom.monoms.GetSize(); j++)
 		{
-			t.k = tmp.monoms[i].k * monoms[i].k;
+			t.k = _Polinom.monoms[i].k * monoms[i].k;
 			for (int h = 0; h < 3; h++)
-				t.power[h] = tmp.monoms[i].power[h] + monoms[j].power[h];
+				t.power[h] = _Polinom.monoms[i].power[h] + monoms[j].power[h];
 		}
 	}
 	emp.monoms.Push_back(t);
@@ -108,8 +106,7 @@ TPolinom TPolinom::operator*(TPolinom &_Polinom)
 	{
 		for (int j = i + 1; j < emp.monoms.GetSize(); j++)
 		{
-			for (int h = 0; h < 3; i++)
-				if (emp.monoms[i].power[h] == emp.monoms[j].power[h])
+				if (emp.monoms[i] == emp.monoms[j])
 				{
 					emp.monoms[i].k += emp.monoms[j].k;
 					emp.monoms.DeleteEl(j);

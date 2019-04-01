@@ -12,11 +12,23 @@ struct TMonom
 {
 	double k;
 	int power[3];
-	TMonom() 
+	TMonom()
 	{
 		for (int i = 0; i < 3; i++)
 			power[i] = 0;
 		k = 1;
+	}
+	bool operator>(TMonom &_mon)
+	{
+		if ((power[0] > _mon.power[0]) || ((power[0] == _mon.power[0]) && (power[1] > _mon.power[1])) || ((power[0] == _mon.power[0]) && (power[1] == _mon.power[1]) && (power[2] > _mon.power[2])))
+			return true;
+		return false;
+	}
+	bool operator <(TMonom &_mon)
+	{
+		if ((power[0] < _mon.power[0]) || ((power[0] == _mon.power[0]) && (power[1] < _mon.power[1])) || ((power[0] == _mon.power[0]) && (power[1] == _mon.power[1]) && (power[2] < _mon.power[2])))
+			return true;
+		return false;
 	}
 };
 
