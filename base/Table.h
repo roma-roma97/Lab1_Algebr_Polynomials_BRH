@@ -225,288 +225,299 @@ public:
 	}
 };
 
-//template <class T> struct node
-//{
-//	int key;
-//	int height;
-//	T data;
-//	node *parent;
-//	node *left_child;
-//	node *right_child;
-//
-//	node(int _key, node *_parent, node *_left_child, node *_right_child)
-//	{
-//		key = _key;
-//		parent = _parent;
-//		left_child = _left_child;
-//		right_child = _right_child;
-//		height = this->calc_height();
-//	}
-//
-//	node(int _key, node *_parent)
-//	{
-//		key = _key;
-//		parent = _parent;
-//		height = 1;
-//		left_child = nullptr;
-//		right_child = nullptr;
-//	}
-//
-//	~node() {}
-//
-//
-//	int get_balance_factor() //возвращает балланс-фактор для данного узла (return balance-factor for this node)
-//	{
-//		int lh = left_child ? left_child->height : 0;
-//		int rh = right_child ? right_child->height : 0;
-//		return (rh - lh);
-//	}
-//
-//	int calc_height() //рассчитывает высоту узла (исходя из условия что высота потомков уже рассчитана) (calculating height of node (only if we know height of children))
-//	{
-//		int lh = left_child ? left_child->height : 0;
-//		int rh = right_child ? right_child->height : 0;
-//		height = ((lh > rh) ? ln : rh) + 1;
-//		return height;
-//	}
-//};
+template <class T> struct node
+{
+	int key;
+	int height;
+	T data;
+	node<T> *parent;
+	node<T> *left_child;
+	node<T> *right_child;
 
-//template <class T> class AVL_tree
-//{
-//private:
-//	node<T> *root;
-//	int num_nodes; //кол-во узлов в дереве (counts of nodes in tree)
-//
-//	void RecursPrintTree(node<T> *_node)
-//	{
-//		node *cur_node = _node;
-//		cout << cur_node->key << "(" << cur_node->height << "): ";
-//		if (cur_node->left_child)
-//		{
-//			cout << cur_node->left_child->key << "(l) ";
-//		}
-//		else
-//		{
-//			cout << "     ";
-//		}
-//		if (cur_node->right_child)
-//		{
-//			cout << cur_node->right_child->key << "(r) ";
-//		}
-//		cout << '\n';
-//
-//		if (cur_node->left_child)
-//		{
-//			RecursPrintTree(cur_node->left_child);
-//		}
-//		if (cur_node->right_child)
-//		{
-//			RecursPrintTree(cur_node->right_child);
-//		}
-//	}
-//
-//	void DeleteSimpleNode(node *del_node) //удаление узла, у которого не более одного дочернего узла (deleting node which dont have more than one child node)
-//	{
-//		if (!del_node->right_child) {  //если у узла del_node нет правого дочернего узла (if node "del_node" have no right child node) 
-//			if (del_node == root) {
-//				root = del_node->left_child;
-//				if (!root) {
-//					root = new node(0, nullptr);
-//				}
-//			}
-//			else if (del_node == del_node->parent->left_child) {
-//				del_node->parent->left_child = del_node->left_child;
-//			}
-//			else if (del_node == del_node->parent->right_child) {
-//				del_node->parent->right_child = del_node->left_child;
-//			}
-//
-//			if (del_node->left_child) {
-//				del_node->left_child->parent = del_node->parent;
-//			}
-//		}
-//		else if (!del_node->left_child) {  //если у узла del_node нет левого дочернего узла (if node "del_node" have no left child node)
-//			if (del_node == root) {
-//				root = del_node->right_child;
-//				if (!root) {
-//					root = new node(0, nullptr);
-//				}
-//			}
-//			else if (del_node == del_node->parent->left_child) {
-//				del_node->parent->left_child = del_node->right_child;
-//			}
-//			else if (del_node == del_node->parent->right_child) {
-//				del_node->parent->right_child = del_node->right_child;
-//			}
-//
-//			if (del_node->right_child) {
-//				del_node->right_child->parent = del_node->parent;
-//			}
-//		}
-//		node *cur_node = del_node->parent;
-//		delete del_node;
-//
-//		while (cur_node)
-//		{  //баллансируем. (balancing)
-//			cur_node->calc_height();
-//			Balance(cur_node);
-//			cur_node = cur_node->parent;
-//		}
-//	}
-//	void ClearRecursion(node *start_clear_node) //вызывается деструктором. (called by destructor)
-//	{
-//		node *cur_clear_node = start_clear_node;
-//		if (cur_clear_node) {
-//			ClearRecursion(cur_clear_node->left_child);
-//			ClearRecursion(cur_clear_node->right_child);
-//			delete cur_clear_node;
-//		}
-//	}
-//
-//	void Rotate(node *rotate_node, bool left)  // поворот влево или вправо (rotate left/right)
-//	{
-//		node* tmp;
-//		if (left)
-//		{
-//			tmp = rotate_node->right;
-//			rotate_node->right = tmp->left;
-//			tmp->left = rotate_node;
-//		}
-//		else
-//		{
-//			tmp = rotate_node->left;
-//			rotate_node->left = tmp->right;
-//			tmp->right = rotate_node;
-//		}
-//
-//		rotate_node->calc_height();
-//		tmp->calc_height();
-//		return tmp;
-//	}
-//	void Balance(node *b_node) //балансировка узла (balancing of node)
-//	{
-//		if (b_node->get_balance_factor() == -2) {
-//			if (b_node->left_child->get_balance_factor() < 0) {
-//				Rotate(b_node->left_child, true);
-//			}
-//			else if (b_node->left_child->get_balance_factor() > 0) {
-//				Rotate(b_node->left_child, false);
-//			}
-//			Rotate(b_node, true);
-//		}
-//		else if (b_node->get_balance_factor() == 2) {
-//			if (b_node->right_child->get_balance_factor() < 0) {
-//				Rotate(b_node->right_child, true);
-//			}
-//			else if (b_node->right_child->get_balance_factor() > 0) {
-//				Rotate(b_node->right_child, false);
-//			}
-//			Rotate(b_node, false);
-//		}
-//	}
-//
-//public:
-//	AVL_tree()
-//	{
-//		root = new node(0, nullptr);
-//		num_nodes = 0;
-//	}
-//	~AVL_tree()
-//	{
-//		ClearRecursion(root);
-//	}
-//	void Insert_node(int ins_key)
-//	{
-//		if (!num_nodes)
-//		{
-//			root->key = ins_key;
-//			num_nodes++;
-//			return;
-//		}
-//
-//		node *cur_node = root;
-//		while (true) {
-//			if (ins_key < cur_node->key) {
-//				if (cur_node->left_child) {
-//					cur_node = cur_node->left_child;
-//				}
-//				else {
-//					cur_node->left_child = new node(ins_key, cur_node);
-//					break;
-//				}
-//			}
-//			else {
-//				if (cur_node->right_child) {
-//					cur_node = cur_node->right_child;
-//				}
-//				else {
-//					cur_node->right_child = new node(ins_key, cur_node);
-//					break;
-//				}
-//			}
-//		}
-//		num_nodes++;
-//
-//		while (cur_node)
-//		{ //баллансируем. (balancing)
-//			cur_node->calc_height();
-//			Balance(cur_node);
-//			cur_node = cur_node->parent;
-//		}
-//	}
-//	bool Delete_node(int del_key)  //дерево баллансируется в функции DeleteSimpleNode. (tree is balanced in function "...")
-//	{
-//		node *del_node = SearchByKey(del_key);
-//
-//		if (num_nodes && del_node) { //если такой узел присутствует в дереве. (if such node assist in tree)
-//			if (!del_node->left_child || !del_node->right_child) { //если у узла del_node не более одного дочерних узла. (if node "del_node" dont have more than one child node)
-//				DeleteSimpleNode(del_node);
-//			}
-//			else {   //если у узла del_node два дочерних узла. (if node "del_node" two child node)
-//				node *successor_node = GetMinChild(del_node->right_child);
-//				del_node->key = successor_node->key;
-//
-//				DeleteSimpleNode(successor_node);
-//			}
-//			num_nodes--;
-//			return true;
-//		}
-//		else {
-//			return false;
-//		}
-//	}
-//	node<T>* SearchByKey(int seek_key)
-//	{
-//		node<T> *cur_node = root;
-//		while (cur_node && cur_node->key != seek_key) {
-//			if (seek_key < cur_node->key)
-//				cur_node = cur_node->left_child;
-//			else
-//				cur_node = cur_node->right_child;
-//
-//		}
-//		return cur_node;
-//	}
-//	void Clear_tree()
-//	{
-//		ClearRecursion(root->left_child);
-//		ClearRecursion(root->right_child);
-//		num_nodes = 0;
-//		root->left_child = nullptr;
-//		root->right_child = nullptr;
-//		root->height = 1;
-//	}
-//
-//	void Print_tree()
-//	{
-//		if (num_nodes) {
-//			RecursPrintTree(root);
-//		}
-//		else {
-//			cout << "Дерево пусто.\n";
-//		}
-//	}
-//};
+	node(int _key, node<T> *_parent, node<T> *_left_child, node<T> *_right_child)
+	{
+		key = _key;
+		parent = _parent;
+		left_child = _left_child;
+		right_child = _right_child;
+		height = this->calc_height();
+	}
+
+	node(int _key, node *_parent)
+	{
+		key = _key;
+		parent = _parent;
+		height = 1;
+		left_child = nullptr;
+		right_child = nullptr;
+	}
+
+	~node() {}
+
+
+	int get_balance_factor() //возвращает балланс-фактор для данного узла (return balance-factor for this node)
+	{
+		int lh = left_child ? left_child->height : 0;
+		int rh = right_child ? right_child->height : 0;
+		return (rh - lh);
+	}
+
+	int calc_height() //рассчитывает высоту узла (исходя из условия что высота потомков уже рассчитана) (calculating height of node (only if we know height of children))
+	{
+		int lh = left_child ? left_child->height : 0;
+		int rh = right_child ? right_child->height : 0;
+		height = ((lh > rh) ? lh : rh) + 1;
+		return height;
+	}
+};
+
+template <class T> class AVL_tree
+{
+private:
+	node<T> *root;
+	int num_nodes; //кол-во узлов в дереве (counts of nodes in tree)
+
+	node<T> *GetMinChild(node<T> *_node) //возвращает указатель на минимального потомка узла. 
+	{
+		node<T> *cur_node = _node;
+
+		while (cur_node->left_child) {
+			cur_node = cur_node->left_child;
+		}
+
+		return cur_node;
+	}
+
+	void RecursPrintTree(node<T> *_node)
+	{
+		node<T>*cur_node = _node;
+		cout << cur_node->key << "(" << cur_node->height << "): ";
+		if (cur_node->left_child)
+		{
+			cout << cur_node->left_child->key << "(l) ";
+		}
+		else
+		{
+			cout << "     ";
+		}
+		if (cur_node->right_child)
+		{
+			cout << cur_node->right_child->key << "(r) ";
+		}
+		cout << '\n';
+
+		if (cur_node->left_child)
+		{
+			RecursPrintTree(cur_node->left_child);
+		}
+		if (cur_node->right_child)
+		{
+			RecursPrintTree(cur_node->right_child);
+		}
+	}
+
+	void DeleteSimpleNode(node<T> *del_node) //удаление узла, у которого не более одного дочернего узла (deleting node which dont have more than one child node)
+	{
+		if (!del_node->right_child) {  //если у узла del_node нет правого дочернего узла (if node "del_node" have no right child node) 
+			if (del_node == root) {
+				root = del_node->left_child;
+				if (!root) {
+					root = new node<T>(0, nullptr);
+				}
+			}
+			else if (del_node == del_node->parent->left_child) {
+				del_node->parent->left_child = del_node->left_child;
+			}
+			else if (del_node == del_node->parent->right_child) {
+				del_node->parent->right_child = del_node->left_child;
+			}
+
+			if (del_node->left_child) {
+				del_node->left_child->parent = del_node->parent;
+			}
+		}
+		else if (!del_node->left_child) {  //если у узла del_node нет левого дочернего узла (if node "del_node" have no left child node)
+			if (del_node == root) {
+				root = del_node->right_child;
+				if (!root) {
+					root = new node<T>(0, nullptr);
+				}
+			}
+			else if (del_node == del_node->parent->left_child) {
+				del_node->parent->left_child = del_node->right_child;
+			}
+			else if (del_node == del_node->parent->right_child) {
+				del_node->parent->right_child = del_node->right_child;
+			}
+
+			if (del_node->right_child) {
+				del_node->right_child->parent = del_node->parent;
+			}
+		}
+		node<T> *cur_node = del_node->parent;
+		delete del_node;
+
+		while (cur_node)
+		{  //баллансируем. (balancing)
+			cur_node->calc_height();
+			Balance(cur_node);
+			cur_node = cur_node->parent;
+		}
+	}
+	void ClearRecursion(node<T>* start_clear_node) //вызывается деструктором. (called by destructor)
+	{
+		node<T>*cur_clear_node = start_clear_node;
+		if (cur_clear_node) {
+			ClearRecursion(cur_clear_node->left_child);
+			ClearRecursion(cur_clear_node->right_child);
+			delete cur_clear_node;
+		}
+	}
+
+	node<T>* Rotate(node<T>* rotate_node, bool left)  // поворот влево или вправо (rotate left/right)
+	{
+		node<T>* tmp;
+		if (left)
+		{
+			tmp = rotate_node->right_child;
+			rotate_node->right_child = tmp->left_child;
+			tmp->left_child = rotate_node;
+		}
+		else
+		{
+			tmp = rotate_node->left_child;
+			rotate_node->left_child = tmp->right_child;
+			tmp->right_child = rotate_node;
+		}
+
+		rotate_node->calc_height();
+		tmp->calc_height();
+		return tmp;
+	}
+	void Balance(node<T>* b_node) //балансировка узла (balancing of node)
+	{
+		if (b_node->get_balance_factor() == -2) {
+			if (b_node->left_child->get_balance_factor() < 0) {
+				Rotate(b_node->left_child, true);
+			}
+			else if (b_node->left_child->get_balance_factor() > 0) {
+				Rotate(b_node->left_child, false);
+			}
+			Rotate(b_node, true);
+		}
+		else if (b_node->get_balance_factor() == 2) {
+			if (b_node->right_child->get_balance_factor() < 0) {
+				Rotate(b_node->right_child, true);
+			}
+			else if (b_node->right_child->get_balance_factor() > 0) {
+				Rotate(b_node->right_child, false);
+			}
+			Rotate(b_node, false);
+		}
+	}
+
+public:
+	AVL_tree()
+	{
+		root = new node<T>(0, nullptr);
+		num_nodes = 0;
+	}
+	~AVL_tree()
+	{
+		ClearRecursion(root);
+	}
+	void Insert_node(int ins_key)
+	{
+		if (!num_nodes)
+		{
+			root->key = ins_key;
+			num_nodes++;
+			return;
+		}
+
+		node<T> *cur_node = root;
+		while (true) {
+			if (ins_key < cur_node->key) {
+				if (cur_node->left_child) {
+					cur_node = cur_node->left_child;
+				}
+				else {
+					cur_node->left_child = new node<T>(ins_key, cur_node);
+					break;
+				}
+			}
+			else {
+				if (cur_node->right_child) {
+					cur_node = cur_node->right_child;
+				}
+				else {
+					cur_node->right_child = new node<T>(ins_key, cur_node);
+					break;
+				}
+			}
+		}
+		num_nodes++;
+
+		while (cur_node)
+		{ //баллансируем. (balancing)
+			cur_node->calc_height();
+			Balance(cur_node);
+			cur_node = cur_node->parent;
+		}
+	}
+	bool Delete_node(int del_key)  //дерево баллансируется в функции DeleteSimpleNode. (tree is balanced in function "...")
+	{
+		node<T> *del_node = SearchByKey(del_key);
+
+		if (num_nodes && del_node) { //если такой узел присутствует в дереве. (if such node assist in tree)
+			if (!del_node->left_child || !del_node->right_child) { //если у узла del_node не более одного дочерних узла. (if node "del_node" dont have more than one child node)
+				DeleteSimpleNode(del_node);
+			}
+			else {   //если у узла del_node два дочерних узла. (if node "del_node" two child node)
+				node<T> *successor_node = GetMinChild(del_node->right_child);
+				del_node->key = successor_node->key;
+
+				DeleteSimpleNode(successor_node);
+			}
+			num_nodes--;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	node<T>* SearchByKey(int seek_key)
+	{
+		node<T> *cur_node = root;
+		while (cur_node && cur_node->key != seek_key) {
+			if (seek_key < cur_node->key)
+				cur_node = cur_node->left_child;
+			else
+				cur_node = cur_node->right_child;
+
+		}
+		return cur_node;
+	}
+	void Clear_tree()
+	{
+		ClearRecursion(root->left_child);
+		ClearRecursion(root->right_child);
+		num_nodes = 0;
+		root->left_child = nullptr;
+		root->right_child = nullptr;
+		root->height = 1;
+	}
+
+	void Print_tree()
+	{
+		if (num_nodes) {
+			RecursPrintTree(root);
+		}
+		else {
+			cout << "Дерево пусто.\n";
+		}
+	}
+};
 
 inline int Hash(int key)
 {

@@ -18,6 +18,12 @@ struct TMonom
 			power[i] = 0;
 		k = 1;
 	}
+	TMonom(TMonom &monom)
+	{
+		for (int i = 0; i < 3; i++)
+			power[i] =monom.power[i];
+		k = monom.k;
+	}
 	bool operator>(TMonom &_mon)
 	{
 		if (power[0] > _mon.power[0])
@@ -62,6 +68,7 @@ public:
 	TPolinom(string _polinom);
 	TPolinom(TPolinom &_TPolinom);
 	TPolinom& operator=(TPolinom &_TPolinom);
+	bool operator==(TPolinom &_TPolinom);
 	TPolinom operator+(TPolinom &_TPolinom);
 	TPolinom operator-(TPolinom &_TPolinom);
 	TPolinom operator*(TPolinom &_TPolinom);

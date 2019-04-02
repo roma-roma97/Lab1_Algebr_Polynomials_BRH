@@ -17,7 +17,7 @@ int main()
 	TableLine<TPolinom>  table1;
 	TableSort<TPolinom>  table2;
 	TableList<TPolinom>  table3;
-	//AVL_tree<TPolinom>   table4;
+	AVL_tree<TPolinom>   table4;
 	HashTable<TPolinom>  table5;
 	Hash_Table<TPolinom> table6;
 	int idtab = 1;
@@ -47,7 +47,7 @@ int main()
 			table1.Insert(pol, key); 
 			table2.Insert(pol, key); 
 			table3.Insert(pol, key); 
-			//table4.Insert_node(pol, key);
+			table4.Insert_node(key);
 			table5.Insert(pol, key);
 			table6.Insert(pol, key);
 			break;
@@ -61,9 +61,9 @@ int main()
 				table1.Delete(key);
 				table2.Delete(key);
 				table3.Delete(key);
-				//table4.Delete(key);
-				//table5.Delete(key);
-				//table6.Delete(key);
+				table4.Delete_node(key);
+				table5.Delete(key);
+				table6.Delete(key);
 			}
 			catch (string t) {
 				cout << t << endl;
@@ -90,7 +90,7 @@ int main()
 			case 1: table1.PrintTable(); break;
 			case 2: table2.PrintTable(); break;
 			case 3: table3.Show(); break;
-			//case 4: table4.Print_tree(); break;
+			case 4: table4.Print_tree(); break;
 			case 5: table5.Show(); break;
 			case 6: table6.Show(); break;
 			}
@@ -107,7 +107,7 @@ int main()
 				case 1: pol = table1.Search(key); break;
 				case 2: pol = table2.Search(key); break;
 				case 3: pol = table3.Search(key); break;
-					//case 4: pol = table4.SearchByKey(key); break;
+				case 4: pol = table4.SearchByKey(key)->data; break;
 				case 5: pol = table5.Search(key); break;
 				case 6: pol = table6.Search(key); break;
 				}
@@ -132,7 +132,7 @@ int main()
 				case 1: cout<<alg.CalcPol(table1); break;
 				case 2: alg.CalcPol(table2); break;
 				case 3: alg.CalcPol(table3); break;
-					//case 4: alg.CalcPol(table4); break;
+			    case 4: alg.CalcPol(table4); break;
 				case 5: alg.CalcPol(table5); break;
 				case 6: alg.CalcPol(table6); break;
 				}
@@ -146,7 +146,7 @@ int main()
 				case 1: pol = table1.Search(key); break;
 				case 2: pol = table2.Search(key); break;
 				case 3: pol = table3.Search(key); break;
-					//case 4: pol = table4.SearchByKey(key); break;
+				case 4: pol = table4.SearchByKey(key)->data; break;
 				case 5: pol = table5.Search(key); break;
 				case 6: pol = table6.Search(key); break;
 				}
@@ -160,7 +160,7 @@ int main()
 				case 1: pol = table1.Search(key); break;
 				case 2: pol = table2.Search(key); break;
 				case 3: pol = table3.Search(key); break;
-					//case 4: pol = table4.SearchByKey(key); break;
+				case 4: pol = table4.SearchByKey(key)->data; break;
 				case 5: pol = table5.Search(key); break;
 				case 6: pol = table6.Search(key); break;
 				}

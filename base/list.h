@@ -26,6 +26,7 @@ public:
 	~TList();
 	TList(const TList &_TList);
 	TList& operator=(TList &_TList);
+	bool operator==(TList &_TList);
 	ValType& operator[](int pos);
 	Node<ValType>* begin();
 	bool IsEmpty();
@@ -150,6 +151,26 @@ template <class ValType> TList<ValType> &TList<ValType>::operator=(TList &_TList
 	size = _TList.size;
 	return *this;
 }
+
+template<class ValType>
+inline bool TList<ValType>::operator==(TList & _TList)
+{
+	if (size != _TList.GetSize())
+		return false;
+	Node<ValType>* tmp = pFirst;
+	Node<ValType>* tmp1 = _TList.begin();
+	while (tmp != nullptr)
+	{
+		if (tmp->key == tmp1->key)
+			return true;
+		tmp = tmp->pNext;
+		tmp1 = tmp1->pNext;
+	}
+	if (size == 0 && tmp == nullptr&&tmp1 == nullptr)
+		return true;
+    return false;
+}
+
 
 template <class ValType> ValType& TList<ValType>::operator[](int pos)
 {

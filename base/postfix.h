@@ -30,7 +30,7 @@ public:
 	TPolinom CalcPol(TableList<TPolinom>& table);
 	TPolinom CalcPol(HashTable<TPolinom>& table);
 	TPolinom CalcPol(Hash_Table<TPolinom>& table);
-	//TPolinom CalcPol(AVL_tree<TPolinom>& table);
+	TPolinom CalcPol(AVL_tree<TPolinom>& table);
 };
 
 #endif

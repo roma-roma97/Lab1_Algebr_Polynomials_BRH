@@ -258,48 +258,49 @@ TPolinom TPostfix::CalcPol(TableList<TPolinom>& table)
 	}
 	return value.Pop();
 }
-//TPolinom TPostfix::CalcPol(AVL_tree<TPolinom>& table)
-//{
-//	TStack<TPolinom> value(postfix.size());
-//	string tmp;
-//	TPolinom tmp1;
-//	TPolinom tmp2;
-//	for (int i = 0; i < postfix.size(); i++)
-//	{
-//		if (postfix[i] == ' ')
-//			continue;
-//		if (IsOperations(postfix[i]) == false)
-//		{
-//			while (postfix[i] != ' ')
-//			{
-//				tmp += postfix[i];
-//				i++;
-//			}
-//			value.Push(table.Search(atoi(tmp.c_str)));
-//			tmp = "";
-//		}
-//		if (IsOperations(postfix[i]) == true)
-//		{
-//			tmp1 = value.Pop();
-//			tmp2 = value.Pop();
-//			switch (postfix[i])
-//			{
-//			case '+':
-//				value.Push(tmp1 + tmp2);
-//				break;
-//			case '-':
-//				value.Push(tmp2 - tmp1);
-//				break;
-//			case '*':
-//				value.Push(tmp1 * tmp2);
-//				break;
-//			case'/':
-//				value.Push(tmp2 / tmp1);
-//				break;
-//			}
-//		}
-//	}
-//}
+TPolinom TPostfix::CalcPol(AVL_tree<TPolinom> &table)
+{
+	TStack<TPolinom> value(postfix.size());
+	string tmp;
+	TPolinom tmp1;
+	TPolinom tmp2;
+	for (int i = 0; i < postfix.size(); i++)
+	{
+		if (postfix[i] == ' ')
+			continue;
+		if (IsOperations(postfix[i]) == false)
+		{
+			while (postfix[i] != ' ')
+			{
+				tmp += postfix[i];
+				i++;
+			}
+			value.Push(table.SearchByKey(atoi(tmp.c_str()))->data);
+			tmp = "";
+		}
+		if (IsOperations(postfix[i]) == true)
+		{
+			tmp1 = value.Pop();
+			tmp2 = value.Pop();
+			switch (postfix[i])
+			{
+			case '+':
+				value.Push(tmp1 + tmp2);
+				break;
+			case '-':
+				value.Push(tmp2 - tmp1);
+				break;
+			case '*':
+				value.Push(tmp1 * tmp2);
+				break;
+			case'/':
+				value.Push(tmp2 / tmp1);
+				break;
+			}
+		}
+	}
+	return value.Pop();
+}
 TPolinom TPostfix::CalcPol(HashTable<TPolinom>& table)
 {
 	TStack<TPolinom> value(postfix.size());

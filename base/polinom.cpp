@@ -28,6 +28,13 @@ TPolinom& TPolinom::operator=(TPolinom &_TPolinom)
 	return *this;
 }
 
+bool TPolinom::operator==(TPolinom & _TPolinom)
+{
+	if (monoms == _TPolinom.monoms)
+		return true;
+	return false;
+}
+
 TPolinom TPolinom::operator+(TPolinom &_Polinom)
 {
 	TPolinom tmp;
