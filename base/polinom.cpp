@@ -88,19 +88,50 @@ TPolinom TPolinom::operator-(TPolinom &_Polinom)
 TPolinom TPolinom::operator/(TPolinom &del)
 {
 	TPolinom div;
+	TPolinom mod;
 	TPolinom tmp;
-	for (int i = 0; i < del.monoms.GetSize(); i++)
+	TPolinom tmp1;
+	mod = *this;
+	for (int i = 0; i < monoms.GetSize(); i++)
 	{
-		if (monoms[i].power >= del.monoms[0].power)
+		if (mod.monoms[i].power >= del.monoms[0].power)
 		{
-			tmp.monoms[i].k = (monoms[i].k / del.monoms[0].k);
-			tmp.monoms[i].power = (monoms[i].power - del.monoms[0].power);
+			tmp.monoms[i].k = (mod.monoms[i].k / del.monoms[0].k);
+			tmp.monoms[i].power = (mod.monoms[i].power - del.monoms[0].power);
 			div.monoms.Push_back(tmp.monoms[i]);
+			for (int j = 0; j < del.monoms.GetSize(); j++)
+			{ 
+				tmp1.monoms[j].k = tmp.monoms[i].k * del.monoms[j].k;
+				tmp1.monoms[j].power = tmp.monoms[i].power + del.monoms[j].power;
+			}
+				mod = mod - tmp1;
 		}
-		else
-			return div;
-		return div;
 	}
+	return div;
+}
+
+TPolinom TPolinom::operator%(TPolinom &del)
+{
+	TPolinom div;
+	TPolinom mod;
+	TPolinom tmp;
+	TPolinom tmp1;
+	mod = *this;
+	for (int i = 0; i < monoms.GetSize(); i++)
+	{
+		if (mod.monoms[i].power >= del.monoms[0].power)
+		{
+			tmp.monoms[i].k = (mod.monoms[i].k / del.monoms[0].k);
+			tmp.monoms[i].power = (mod.monoms[i].power - del.monoms[0].power);
+			for (int j = 0; j < del.monoms.GetSize(); j++)
+			{
+				tmp1.monoms[j].k = tmp.monoms[i].k * del.monoms[j].k;
+				tmp1.monoms[j].power = tmp.monoms[i].power + del.monoms[j].power;
+			}
+			mod = mod - tmp1;
+		}
+	}
+	return mod;
 }
 
 double TPolinom::Calculate(const double &x, const double &y, const double &z)
