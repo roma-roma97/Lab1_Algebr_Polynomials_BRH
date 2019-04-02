@@ -94,10 +94,10 @@ TPolinom TPolinom::operator/(TPolinom &del)
 	mod = *this;
 	for (int i = 0; i < monoms.GetSize(); i++)
 	{
-		if (mod.monoms[i].power >= del.monoms[0].power)
+		if (mod.monoms[0] > del.monoms[0] || mod.monoms[i] = del.monoms[0])
 		{
-			tmp.monoms[i].k = (mod.monoms[i].k / del.monoms[0].k);
-			tmp.monoms[i].power = (mod.monoms[i].power - del.monoms[0].power);
+			tmp.monoms[i].k = (mod.monoms[0].k / del.monoms[0].k);
+			tmp.monoms[i].power = (mod.monoms[0].power - del.monoms[0].power);
 			div.monoms.Push_back(tmp.monoms[i]);
 			for (int j = 0; j < del.monoms.GetSize(); j++)
 			{ 
@@ -119,10 +119,10 @@ TPolinom TPolinom::operator%(TPolinom &del)
 	mod = *this;
 	for (int i = 0; i < monoms.GetSize(); i++)
 	{
-		if (mod.monoms[i].power >= del.monoms[0].power)
+		if (mod.monoms[0] > del.monoms[0] || mod.monoms[i] = del.monoms[0])
 		{
-			tmp.monoms[i].k = (mod.monoms[i].k / del.monoms[0].k);
-			tmp.monoms[i].power = (mod.monoms[i].power - del.monoms[0].power);
+			tmp.monoms[i].k = (mod.monoms[0].k / del.monoms[0].k);
+			tmp.monoms[i].power = (mod.monoms[0].power - del.monoms[0].power);
 			for (int j = 0; j < del.monoms.GetSize(); j++)
 			{
 				tmp1.monoms[j].k = tmp.monoms[i].k * del.monoms[j].k;
