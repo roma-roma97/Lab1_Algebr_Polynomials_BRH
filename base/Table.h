@@ -30,17 +30,35 @@ template <class T> class TableLine
 public:
 	void Insert(T _data, int _key)
 	{
-		if (count == MaxSize)
-			throw("Don't memory");
-		data[count].key = _key;
-		data[count].data = _data;
-		count++;
+		if (count == 0)
+		{
+			data[count].key = _key;
+			data[count].data = _data;
+			count++;
+		}
+		else {
+			for (int i = 0; i < count; i++)
+			{
+				if (_key == data[i].key)
+					throw ("Key is set");
+			}
+
+			data[count].key = _key;
+			data[count].data = _data;
+			count++;
+
+		}
 	}
 	void Delete(int _key)
 	{
 		if (count == 0)
 			throw("Table is empty");
-		else {
+		else
+		{
+			if (count == 1)
+			{
+				count--;
+			}
 			for (int i = 0; i < count; i++)
 			{
 				if (data[i].key == _key)
@@ -50,9 +68,7 @@ public:
 				}
 			}
 			count--;
-			return;
 		}
-		throw("File don't search");
 	}
 	T Search(int _key)
 	{
@@ -62,7 +78,7 @@ public:
 			for (int i = 0; i < count; i++)
 				if (data[i].key == _key)
 					return data[i].data;
-			throw("File don't search");
+			throw("Key isn`t found");
 		}
 	}
 	void PrintTable()
@@ -77,8 +93,7 @@ template <class T> class TableSort
 	TRecord<T>data[MaxSize];
 	int count = 0;
 public:
-
-	void Sort(TRecord<T> *_data, int _count)
+	void Sort(TRecord <T> *_data, int _count)
 	{
 		TRecord<T> tmp;
 		int ind;
@@ -96,14 +111,23 @@ public:
 	}
 	void Insert(T _data, int _key)
 	{
-		if (count == MaxSize)
-			throw("Don't memory");
-		else {
-			data[count].data = _data;
+		if (count == 0)
+		{
 			data[count].key = _key;
-			Sort(data, count);
+			data[count].data = _data;
 			count++;
 		}
+		else {
+			for (int i = 0; i < count; i++)
+			{
+				if (_key == data[i].key)
+					throw ("Key is set");
+			}
+			data[count].key = _key;
+			data[count].data = _data;
+			count++;
+		}
+		Sort(data, count);
 	}
 	void Delete(int _key)
 	{
@@ -117,12 +141,10 @@ public:
 				{
 					data[i].key = data[count].key;
 					data[i].data = data[count].data;
-					count--;
-					Sort(data, count);
-					return;
 				}
 			}
-			throw("File don't search");
+			count--;
+			Sort(data, count);
 		}
 	}
 	T Search(int _key)
@@ -171,11 +193,14 @@ public:
 	{
 		int count = 0;
 		Node<TRecord<T>> *first = data.begin();
-		while (first != nullptr)
+		while (first!= nullptr)
 		{
-			count++;
-			if (first->pNext->key.key == _key)
+			if (first->key.key == _key)
+			{
 				data.DeleteEl(count);
+				return;
+			}
+			count++;
 			first = first->pNext;
 		}
 	}

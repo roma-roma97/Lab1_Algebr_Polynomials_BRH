@@ -109,7 +109,7 @@ template <class ValType> TList<ValType> &TList<ValType>::operator=(TList &_TList
 		}
 		tmp->key = tmp1->key;
 		pLast = tmp;
-
+		return *this;
 	}
 	if (size > _TList.size)
 	{
@@ -135,7 +135,7 @@ template <class ValType> TList<ValType> &TList<ValType>::operator=(TList &_TList
 			tmp = tmp->pNext;
 			tmp1 = tmp1->pNext;
 		}
-		tmp->key = tmp1->key;
+		//tmp->key = tmp1->key;
 		while (tmp1->pNext != nullptr)
 		{
 			tmp->pNext = new Node<ValType>;
