@@ -21,14 +21,25 @@ struct TMonom
 	bool operator>(TMonom &_mon)
 	{
 		if ((power[0] > _mon.power[0]) || ((power[0] == _mon.power[0]) && (power[1] > _mon.power[1])) || ((power[0] == _mon.power[0]) && (power[1] == _mon.power[1]) && (power[2] > _mon.power[2])))
-			return true;
+		{
+				return true;
+		}
 		return false;
 	}
 	bool operator <(TMonom &_mon)
 	{
 		if ((power[0] < _mon.power[0]) || ((power[0] == _mon.power[0]) && (power[1] < _mon.power[1])) || ((power[0] == _mon.power[0]) && (power[1] == _mon.power[1]) && (power[2] < _mon.power[2])))
-			return true;
+		{
+				return true;
+		}
 		return false;
+	}
+	bool operator==(TMonom &_mon)
+	{
+		for (int h = 0; h < 3; h++)
+			if (power[h] != _mon.power[h])
+				return false;
+		return true;
 	}
 };
 
