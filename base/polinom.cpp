@@ -47,12 +47,12 @@ TPolinom TPolinom::operator+(TPolinom &_Polinom)
 			tmp.monoms.Push_back(monoms[i]);
 			i++;
 		}
-		if (monoms[i] < _Polinom.monoms[j])
+		else if (monoms[i] < _Polinom.monoms[j])
 		{
 			tmp.monoms.Push_back(_Polinom.monoms[j]);
 			j++;
 		}
-		if ((monoms[i].k + _Polinom.monoms[j].k) != 0)
+		else if ((monoms[i].k + _Polinom.monoms[j].k) != 0)
 		{
 			monom.k = monoms[i].k + _Polinom.monoms[j].k;
 			for (int h = 0; h < 3; h++)
@@ -74,11 +74,18 @@ TPolinom TPolinom::operator+(TPolinom &_Polinom)
 			j++;
 		}
 	else
-		while (i < _Polinom.monoms.GetSize())
+		while (i < monoms.GetSize())
 		{
 			tmp.monoms.Push_back(monoms[i]);
 			i++;
 		}
+	if (tmp.monoms.GetSize() == 0)
+	{
+		monom.k = 0;
+		for (int k = 0; k < 3; k++)
+			monom.power[k] = 0;
+		tmp.monoms.Push_back(monom);
+	}
 	tmp.strPolinom();
 	return tmp;
 }
@@ -86,28 +93,29 @@ TPolinom TPolinom::operator+(TPolinom &_Polinom)
 TPolinom TPolinom::operator-(TPolinom &_Polinom)
 {
 	TPolinom tmp;
+	TPolinom tmp1;
 	tmp = _Polinom;
+	tmp1 = *this;
 	for (int i = 0; i < tmp.monoms.GetSize(); i++)
 		tmp.monoms[i].k = -1 * tmp.monoms[i].k;
-	tmp = *this + tmp;
-	return tmp;
+	tmp1 = tmp1 + tmp;
+	return tmp1;
 }
 
 TPolinom TPolinom::operator*(TPolinom &_Polinom)
 {
-
 	TPolinom emp;
 	TMonom t;
 	for (int i = 0; i < monoms.GetSize(); i++)
 	{
 		for (int j = 0; j < _Polinom.monoms.GetSize(); j++)
 		{
-			t.k = _Polinom.monoms[i].k * monoms[i].k;
+			t.k = _Polinom.monoms[j].k * monoms[i].k;
 			for (int h = 0; h < 3; h++)
-				t.power[h] = _Polinom.monoms[i].power[h] + monoms[j].power[h];
+				t.power[h] = _Polinom.monoms[j].power[h] + monoms[i].power[h];
+			emp.monoms.Push_back(t);
 		}
 	}
-	emp.monoms.Push_back(t);
 	for (int i = 0; i < emp.monoms.GetSize() - 1; i++)
 	{
 		for (int j = i + 1; j < emp.monoms.GetSize(); j++)
@@ -119,18 +127,43 @@ TPolinom TPolinom::operator*(TPolinom &_Polinom)
 			}
 		}
 	}
+	emp.strPolinom();
 	return emp;
 }
 
-TPolinom TPolinom::operator/(TPolinom &_Polinom)
+TPolinom TPolinom::operator/(TPolinom &_del)
 {
 	TPolinom div;
+	TPolinom mod;
+	TMonom tmp;
+	TMonom tmp2;
+	TPolinom tmp1;
+	//TMonom tmp2;
+	mod = *this;
+	for (int i = 0; i < monoms.GetSize(); i++)
+	{
+		if ((mod.monoms[0] > _del.monoms[0])|| (mod.monoms[0] == _del.monoms[0]))
+		{
+			tmp = (mod.monoms[0] - _del.monoms[0]);
+			tmp.k = (mod.monoms[0].k / _del.monoms[0].k);
+			div.monoms.Push_back(tmp);
+			for (int j = 0; j < _del.monoms.GetSize(); j++)
+			{
+				tmp2 = tmp + _del.monoms[j];
+				tmp2.k = tmp.k * _del.monoms[j].k;
+				tmp1.monoms.Push_back(tmp2);
+			}
+			mod = mod - tmp1;
+			tmp1.monoms.Clear();
+		}
+		div.strPolinom();
+	}
 	return div;
 }
 
 TPolinom TPolinom::Integration(char var)
 {
-	TPolinom _Polinom=*this;
+	TPolinom _Polinom = *this;
 	for (int i = 0; i < _Polinom.monoms.GetSize(); i++)
 	{
 		switch (var)
@@ -155,7 +188,7 @@ TPolinom TPolinom::Integration(char var)
 
 TPolinom TPolinom::Differentiation(char var)
 {
-	TPolinom _Polinom=*this;
+	TPolinom _Polinom = *this;
 	for (int i = 0; i < _Polinom.monoms.GetSize(); i++)
 	{
 		switch (var)
@@ -164,7 +197,7 @@ TPolinom TPolinom::Differentiation(char var)
 		{
 			_Polinom.monoms[i].k = _Polinom.monoms[i].k * _Polinom.monoms[i].power[0];
 			_Polinom.monoms[i].power[0]--;
-			
+
 			break;
 		}
 		case 'y':
@@ -212,6 +245,7 @@ void TPolinom::SetPolinom(string &_polinom)
 	int i = 0;
 	string str;
 	polinom = _polinom;
+	monoms.Clear();
 	while (i < _polinom.length())
 	{
 		while ((i != _polinom.length()) && _polinom[i] != '-' && _polinom[i] != '+')
@@ -257,13 +291,13 @@ void TPolinom::SetPolinom(string &_polinom)
 		i++;
 		if (monoms.GetSize() == 0)
 			monoms.Push_back(monom);
-		else if (monom.power > monoms[0].power)
+		else if (monom > monoms[0])
 			monoms.Push_begin(monom);
-		else if (monom.power < monoms[monoms.GetSize() - 1].power)
+		else if (monom < monoms[monoms.GetSize() - 1])
 			monoms.Push_back(monom);
 		else
 			for (int z = 1; z < monoms.GetSize(); z++)
-				if (monoms[z].power < monom.power)
+				if (monoms[z] < monom)
 				{
 					monoms.Insert(z, monom);
 					break;

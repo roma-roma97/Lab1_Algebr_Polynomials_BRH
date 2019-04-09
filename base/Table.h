@@ -40,7 +40,7 @@ public:
 			for (int i = 0; i < count; i++)
 			{
 				if (_key == data[i].key)
-					throw ("Key is set");
+					throw (string("Key is set"));
 			}
 
 			data[count].key = _key;
@@ -51,8 +51,9 @@ public:
 	}
 	void Delete(int _key)
 	{
+		bool flag = true;
 		if (count == 0)
-			throw("Table is empty");
+			throw(string("Table is empty"));
 		else
 		{
 			if (count == 1)
@@ -63,22 +64,25 @@ public:
 			{
 				if (data[i].key == _key)
 				{
-					data[i].key = data[count].key;
-					data[i].data = data[count].data;
+					data[i].key = data[count-1].key;
+					data[i].data = data[count-1].data;
+					flag = false;
 				}
 			}
+			if (flag)
+				throw(string("Key is not found!"));
 			count--;
 		}
 	}
 	T Search(int _key)
 	{
 		if (count == 0)
-			throw("Table is empty");
+			throw(string("Table is empty"));
 		else {
 			for (int i = 0; i < count; i++)
 				if (data[i].key == _key)
 					return data[i].data;
-			throw("Key isn`t found");
+			throw(string("Key isn`t found"));
 		}
 	}
 	void PrintTable()
@@ -139,8 +143,8 @@ public:
 			{
 				if (data[i].key == _key)
 				{
-					data[i].key = data[count].key;
-					data[i].data = data[count].data;
+					data[i].key = data[count-1].key;
+					data[i].data = data[count-1].data;
 				}
 			}
 			count--;
@@ -290,29 +294,11 @@ private:
 
 	void RecursPrintTree(node<T> *_node)
 	{
-		node<T>*cur_node = _node;
-		cout << cur_node->key << "(" << cur_node->height << "): ";
-		if (cur_node->left_child)
+		if (_node != nullptr)
 		{
-			cout << cur_node->left_child->key << "(l) ";
-		}
-		else
-		{
-			cout << "     ";
-		}
-		if (cur_node->right_child)
-		{
-			cout << cur_node->right_child->key << "(r) ";
-		}
-		cout << '\n';
-
-		if (cur_node->left_child)
-		{
-			RecursPrintTree(cur_node->left_child);
-		}
-		if (cur_node->right_child)
-		{
-			RecursPrintTree(cur_node->right_child);
+			RecursPrintTree(_node->left_child);
+			RecursPrintTree(_node->right_child);
+			cout << _node->key << "|" << _node->data << endl;
 		}
 	}
 
@@ -364,6 +350,7 @@ private:
 			cur_node = cur_node->parent;
 		}
 	}
+	
 	void ClearRecursion(node<T>* start_clear_node) //вызывается деструктором. (called by destructor)
 	{
 		node<T>*cur_clear_node = start_clear_node;
@@ -380,19 +367,19 @@ private:
 		if (left)
 		{
 			tmp = rotate_node->right_child;
-			rotate_node->right_child = tmp->left_child;
-			tmp->left_child = rotate_node;
+			rotate_node->right_child = rotate_node->left_child;
+			rotate_node->left_child = tmp;
 		}
 		else
 		{
 			tmp = rotate_node->left_child;
-			rotate_node->left_child = tmp->right_child;
-			tmp->right_child = rotate_node;
+			rotate_node->left_child = rotate_node->right_child;
+			rotate_node->right_child = tmp;
 		}
 
 		rotate_node->calc_height();
-		tmp->calc_height();
-		return tmp;
+		//tmp->calc_height();
+		return rotate_node;
 	}
 	void Balance(node<T>* b_node) //балансировка узла (balancing of node)
 	{
@@ -426,11 +413,12 @@ public:
 	{
 		ClearRecursion(root);
 	}
-	void Insert_node(int ins_key)
+	void Insert_node(T _data, int ins_key)
 	{
-		if (!num_nodes)
+		if (num_nodes==0)
 		{
 			root->key = ins_key;
+			root->data = _data;
 			num_nodes++;
 			return;
 		}
@@ -438,20 +426,22 @@ public:
 		node<T> *cur_node = root;
 		while (true) {
 			if (ins_key < cur_node->key) {
-				if (cur_node->left_child) {
+				if (cur_node->left_child!=nullptr) {
 					cur_node = cur_node->left_child;
 				}
 				else {
 					cur_node->left_child = new node<T>(ins_key, cur_node);
+					cur_node->left_child->data = _data;
 					break;
 				}
 			}
 			else {
-				if (cur_node->right_child) {
+				if (cur_node->right_child!=nullptr) {
 					cur_node = cur_node->right_child;
 				}
 				else {
 					cur_node->right_child = new node<T>(ins_key, cur_node);
+					cur_node->right_child->data = _data;
 					break;
 				}
 			}
@@ -469,7 +459,7 @@ public:
 	{
 		node<T> *del_node = SearchByKey(del_key);
 
-		if (num_nodes && del_node) { //если такой узел присутствует в дереве. (if such node assist in tree)
+		if ((num_nodes!=0) && (del_node!=nullptr)) { //если такой узел присутствует в дереве. (if such node assist in tree)
 			if (!del_node->left_child || !del_node->right_child) { //если у узла del_node не более одного дочерних узла. (if node "del_node" dont have more than one child node)
 				DeleteSimpleNode(del_node);
 			}
@@ -489,12 +479,11 @@ public:
 	node<T>* SearchByKey(int seek_key)
 	{
 		node<T> *cur_node = root;
-		while (cur_node && cur_node->key != seek_key) {
+		while ((cur_node!=nullptr) && (cur_node->key != seek_key)) {
 			if (seek_key < cur_node->key)
 				cur_node = cur_node->left_child;
 			else
 				cur_node = cur_node->right_child;
-
 		}
 		return cur_node;
 	}
@@ -507,15 +496,9 @@ public:
 		root->right_child = nullptr;
 		root->height = 1;
 	}
-
-	void Print_tree()
+    void Print_tree()
 	{
-		if (num_nodes) {
-			RecursPrintTree(root);
-		}
-		else {
-			cout << "Дерево пусто.\n";
-		}
+		RecursPrintTree(root);
 	}
 };
 

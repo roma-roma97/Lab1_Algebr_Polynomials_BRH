@@ -36,7 +36,7 @@ int main()
 		cin >> flag;
 		switch (flag) {
 		case 1:
-			system("cls");
+			//system("cls");
 			cout << "Введите имя полинома: ";
 			cin >> key;
 			cout << endl;
@@ -44,15 +44,22 @@ int main()
 			cin >> polinom;
 			cout << endl;
 			pol.SetPolinom(polinom);
-			table1.Insert(pol, key); 
-			table2.Insert(pol, key); 
-			table3.Insert(pol, key); 
-			table4.Insert_node(key);
-			table5.Insert(pol, key);
-			table6.Insert(pol, key);
+			
+			try {
+				table1.Insert(pol, key);
+				table2.Insert(pol, key);
+				table3.Insert(pol, key);
+				table4.Insert_node(pol, key);
+				table5.Insert(pol, key);
+				table6.Insert(pol, key);
+			}
+			catch (string str)
+			{
+				cout << str;
+			}
 			break;
 		case 2:
-			system("cls");
+			//system("cls");
 			cout << "Введите имя полинома: ";
 			cin >> key;
 			cout << endl;
@@ -70,7 +77,7 @@ int main()
 			}
 			break;
 		case 3:
-			system("cls");
+			//system("cls");
 			int i;
 			cout << "Введите тип:\n1.Линейная на массиве\n2.Отсортированная на массиве\n3.На списке\n4.Дерево\n5.Хэш-таблица(цепочки)\n6.Хэш-таблица()" << endl;
 			cin >> i;
@@ -95,10 +102,10 @@ int main()
 			case 6: table6.Show(); break;
 			}
 			system("pause");
-			system("cls");
+			//system("cls");
 			break;
 		case 5:
-			system("cls");
+			//system("cls");
 			cout << "Введите имя полинома: ";
 			cin >> key;
 			cout << endl;
@@ -165,7 +172,7 @@ int main()
 				case 6: pol = table6.Search(key); break;
 				}
 				pol = pol.Differentiation(var);
-				cout << pol; break;
+				cout << pol<<endl; break;
 			}
 			break;
 		case 7: flag = 7; break;

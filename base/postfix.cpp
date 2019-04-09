@@ -165,7 +165,7 @@ TPolinom TPostfix::CalcPol(TableLine<TPolinom>& table)
 				value.Push(tmp1 * tmp2);
 				break;
 			case'/':
-				//value.Push(tmp2 / tmp1);
+				value.Push(tmp2 / tmp1);
 				break;
 			}
 		}

@@ -31,7 +31,7 @@ public:
 	Node<ValType>* begin();
 	bool IsEmpty();
 	void Push_back(ValType &_key);
-	void Push_begin(const ValType &_key);
+	void Push_begin(ValType &_key);
 	//void Push_next(Node *tmp, const ValType &_key); //вставить в следующую €чейку относительно переданного звена.
 	void Insert(int pos, ValType _key);
 	void DeleteEl(int pos);
@@ -102,14 +102,12 @@ template <class ValType> TList<ValType> &TList<ValType>::operator=(TList &_TList
 	Node<ValType> *tmp1 = _TList.pFirst;
 	if (size == _TList.size)
 	{
-		while (tmp1->pNext != nullptr)
+		while (tmp1 != nullptr)
 		{
 			tmp->key = tmp1->key;
 			tmp = tmp->pNext;
 			tmp1 = tmp1->pNext;
 		}
-		tmp->key = tmp1->key;
-		pLast = tmp;
 		return *this;
 	}
 	if (size > _TList.size)
@@ -120,7 +118,8 @@ template <class ValType> TList<ValType> &TList<ValType>::operator=(TList &_TList
 			tmp = tmp->pNext;
 			tmp1 = tmp1->pNext;
 		}
-		pLast = tmp;
+		pLast = tmp->pPrev;
+		tmp = tmp->pPrev;
 		while (tmp->pNext != nullptr)
 		{
 			tmp = tmp->pNext;
@@ -161,14 +160,14 @@ inline bool TList<ValType>::operator==(TList & _TList)
 	Node<ValType>* tmp1 = _TList.begin();
 	while (tmp != nullptr)
 	{
-		if (tmp->key == tmp1->key)
-			return true;
+		if (!(tmp->key == tmp1->key))
+			return false;
 		tmp = tmp->pNext;
 		tmp1 = tmp1->pNext;
 	}
 	if (size == 0 && tmp == nullptr&&tmp1 == nullptr)
 		return true;
-    return false;
+    return true;
 }
 
 
@@ -176,7 +175,7 @@ template <class ValType> ValType& TList<ValType>::operator[](int pos)
 {
 	if (IsEmpty())
 		throw("IsEmpty");
-	if (pos >= size && pos < 0)
+	if (pos >= size || pos < 0)
 		throw("Index Error");
 	Node<ValType> *tmp = pFirst;
 	for (int i = 0; i < pos; i++)
@@ -197,7 +196,6 @@ template <class ValType> void TList<ValType>::Push_back(ValType &_key)
 		pFirst->key = _key;
 		size++;
 		pLast = pFirst;
-		return;
 	}
 	else
 	{
@@ -209,7 +207,7 @@ template <class ValType> void TList<ValType>::Push_back(ValType &_key)
 	}
 }
 
-template <class ValType> void TList<ValType>::Push_begin(const ValType &_key)
+template <class ValType> void TList<ValType>::Push_begin(ValType &_key)
 {
 	if (IsEmpty())
 	{
