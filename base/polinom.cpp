@@ -92,6 +92,8 @@ TPolinom TPolinom::operator/(TPolinom &del)
 	TPolinom tmp;
 	TPolinom tmp1;
 	mod = *this;
+	tmp.monoms[0].k = 0;
+	tmp.monoms[0].power = 0;
 	for (int i = 0; i < monoms.GetSize(); i++)
 	{
 		if (mod.monoms[0] > del.monoms[0] || mod.monoms[i] = del.monoms[0])
@@ -117,6 +119,8 @@ TPolinom TPolinom::operator%(TPolinom &del)
 	TPolinom tmp;
 	TPolinom tmp1;
 	mod = *this;
+	tmp.monoms[0].k = 0;
+	tmp.monoms[0].power = 0;
 	for (int i = 0; i < monoms.GetSize(); i++)
 	{
 		if (mod.monoms[0] > del.monoms[0] || mod.monoms[i] = del.monoms[0])
