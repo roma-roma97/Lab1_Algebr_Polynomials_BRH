@@ -105,38 +105,41 @@ private:
 		delete t;
 	}
 
-	node* insert(int x, node* t)
+	node* insert(int x, T _data, node* t)
 	{
 		if (t == NULL)
 		{
 			t = new node;
-			t->data = x;
+			t->key = x;
+			t->data = _data;
 			t->height = 0;
 			t->left = t->right = NULL;
 		}
 		else 
-			if (x < t->data)
+			if (x < t->key)
 		{
 			t->left = insert(x, t->left);
 			if (height(t->left) - height(t->right) == 2)
 			{
-				if (x < t->left->data)
+				if (x < t->left->key)
 					t = singleRightRotate(t);
 				else
 					t = doubleRightRotate(t);
 			}
+			t->data = _data;
 		}
 		else 
-				if (x > t->data)
+			if (x > t->key)
 		{
 			t->right = insert(x, t->right);
 			if (height(t->right) - height(t->left) == 2)
 			{
-				if (x > t->right->data)
+				if (x > t->right->key)
 					t = singleLeftRotate(t);
 				else
 					t = doubleLeftRotate(t);
 			}
+			t->data = _data;
 		}
 
 		t->height = max(height(t->left), height(t->right)) + 1;
@@ -203,9 +206,9 @@ private:
 			return NULL;
 		// Element not found
 
-		else if (x < t->data)
+		else if (x < t->key)
 			t->left = remove(x, t->left);
-		else if (x > t->data)
+		else if (x > t->key)
 			t->right = remove(x, t->right);
 		// Searching for element
 
@@ -214,8 +217,8 @@ private:
 		else if (t->left && t->right)
 		{
 			temp = findMin(t->right);
-			t->data = temp->data;
-			t->right = remove(t->data, t->right);
+			t->key = temp->key;
+			t->right = remove(t->key, t->right);
 		}
 		// With one or zero child
 		else
@@ -274,7 +277,7 @@ private:
 		if (t == NULL)
 			return;
 		inorder(t->left);
-		cout << t->data << " ";
+		cout << t->key << "|" << t->data << "" << endl;
 		inorder(t->right);
 	}
 
@@ -284,9 +287,9 @@ public:
 		root = NULL;
 	}
 
-	void insert(int x)
+	void insert(int x, T data)
 	{
-		root = insert(x, root);
+		root = insert(x, data, root);
 	}
 
 	void remove(int x)
