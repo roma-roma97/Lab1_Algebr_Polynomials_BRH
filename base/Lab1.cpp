@@ -49,7 +49,7 @@ int main()
 				table1.Insert(pol, key);
 				table2.Insert(pol, key);
 				table3.Insert(pol, key);
-				table4.Insert_node(pol, key);
+				table4.Insert(pol, key);
 				table5.Insert(pol, key);
 				table6.Insert(pol, key);
 			}
@@ -68,7 +68,7 @@ int main()
 				table1.Delete(key);
 				table2.Delete(key);
 				table3.Delete(key);
-				table4.Delete_node(key);
+				table4.Delete(key);
 				table5.Delete(key);
 				table6.Delete(key);
 			}
@@ -97,7 +97,7 @@ int main()
 			case 1: table1.PrintTable(); break;
 			case 2: table2.PrintTable(); break;
 			case 3: table3.Show(); break;
-			case 4: table4.Print_tree(); break;
+			case 4: table4.Print(); break;
 			case 5: table5.Show(); break;
 			case 6: table6.Show(); break;
 			}
@@ -114,7 +114,7 @@ int main()
 				case 1: pol = table1.Search(key); break;
 				case 2: pol = table2.Search(key); break;
 				case 3: pol = table3.Search(key); break;
-				case 4: pol = table4.SearchByKey(key)->data; break;
+				case 4: pol = table4.SearchByKey(key); break;
 				case 5: pol = table5.Search(key); break;
 				case 6: pol = table6.Search(key); break;
 				}
@@ -153,7 +153,7 @@ int main()
 				case 1: pol = table1.Search(key); break;
 				case 2: pol = table2.Search(key); break;
 				case 3: pol = table3.Search(key); break;
-				case 4: pol = table4.SearchByKey(key)->data; break;
+				case 4: pol = table4.SearchByKey(key); break;
 				case 5: pol = table5.Search(key); break;
 				case 6: pol = table6.Search(key); break;
 				}
@@ -167,7 +167,7 @@ int main()
 				case 1: pol = table1.Search(key); break;
 				case 2: pol = table2.Search(key); break;
 				case 3: pol = table3.Search(key); break;
-				case 4: pol = table4.SearchByKey(key)->data; break;
+				case 4: pol = table4.SearchByKey(key); break;
 				case 5: pol = table5.Search(key); break;
 				case 6: pol = table6.Search(key); break;
 				}

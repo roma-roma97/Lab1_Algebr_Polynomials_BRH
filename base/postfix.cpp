@@ -275,7 +275,7 @@ TPolinom TPostfix::CalcPol(AVL_tree<TPolinom> &table)
 				tmp += postfix[i];
 				i++;
 			}
-			value.Push(table.SearchByKey(atoi(tmp.c_str()))->data);
+			value.Push(table.SearchByKey(atoi(tmp.c_str())));
 			tmp = "";
 		}
 		if (IsOperations(postfix[i]) == true)

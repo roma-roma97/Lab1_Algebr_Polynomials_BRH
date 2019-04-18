@@ -177,6 +177,30 @@ TEST(TableList, can_delete_cell)
 	tmp.Insert(pol, 1);
 	ASSERT_NO_THROW(tmp.Delete(1));
 }
+TEST(AVL_tree, can_delete_cell)
+{
+	AVL_tree <int> tmp;
+	int pol = 9;
+	tmp.Insert(pol, 1);
+	ASSERT_NO_THROW(tmp.Delete(1));
+}
+//TEST(AVL_Tree, cant_delete_empty_table)
+//{
+//	AVL_tree <int> tmp;
+//	ASSERT_ANY_THROW(tmp.Delete(1));
+//}
+TEST(AVL_Tree, can_search_cell)
+{
+	AVL_tree <int> tmp;
+	int pol = 9;
+	tmp.Insert(pol, 1);
+	ASSERT_NO_THROW(tmp.SearchByKey(1));
+}
+//TEST(AVL_Tree, can_search_in_empty_table)
+//{
+//	AVL_tree <int> tmp;
+//	ASSERT_ANY_THROW(tmp.SearchByKey(1));
+//}
 
 //TEST(TPolinom, can_create_polinom)
 //{
