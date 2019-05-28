@@ -6,7 +6,7 @@ const int MaxStackSize = 100;
 template <class Telem>
 class TStack
 {
-	Telem *pMem;
+	Telem* pMem;
 	int size;
 	int top;
 public:
@@ -34,7 +34,7 @@ public:
 			return true;
 		return false;
 	}
-	void Push(Telem &val)
+	void Push(Telem & val)
 	{
 		if (IsFull() == false)
 		{

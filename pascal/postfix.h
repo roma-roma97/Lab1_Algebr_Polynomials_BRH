@@ -3,8 +3,7 @@
 
 #include <string>
 #include "stack.h"
-#include "Table.h"
-#include "polinom.h"
+#include "TableVar.h"
 
 using namespace std;
 
@@ -24,13 +23,7 @@ public:
 	string GetInfix() { return infix; }
 	string GetPostfix() { return postfix; }
 	void ToPostfix();
-	//double Calculate(double x, double y, double z);
-	TPolinom CalcPol(TableLine<TPolinom> &table);
 	TPolinom CalcPol(TableSort<TPolinom>& table);
-	TPolinom CalcPol(TableList<TPolinom>& table);
-	TPolinom CalcPol(HashTable<TPolinom>& table);
-	TPolinom CalcPol(Hash_Table<TPolinom>& table);
-	TPolinom CalcPol(AVL_tree<TPolinom>& table);
 };
 
 #endif
